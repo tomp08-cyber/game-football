@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WORLD CUP ELITE 2025</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap');
+:root{
+--gold:#FFD700;--gold2:#c9960a;--green:#00d46a;--red:#ff3b5c;
+--blue:#1a8cff;--dark:#07090f;--dark2:#0c1018;--dark3:#111724;
+--border:rgba(255,255,255,0.07);--text:rgba(255,255,255,0.88);--muted:rgba(255,255,255,0.3);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--dark);font-family:'DM Sans',sans-serif;color:var(--text);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.018) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0;}
+.app{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:20px 14px 80px;}
+
+.site-header{text-align:center;padding:32px 0 24px;border-bottom:1px solid var(–border);margin-bottom:22px;}
+.site-logo{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(38px,7vw,68px);letter-spacing:0.08em;background:linear-gradient(135deg,#fff 0%,var(–gold) 50%,#fff 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 40px rgba(255,215,0,0.3));line-height:1;margin-bottom:4px;}
+.site-sub{font-size:11px;letter-spacing:0.45em;color:var(–muted);text-transform:uppercase;}
+
+.sound-toggle{position:fixed;top:14px;right:14px;z-index:999;background:rgba(255,255,255,0.06);border:1px solid var(–border);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:17px;transition:all 0.2s;}
+.sound-toggle:hover{background:rgba(255,255,255,0.12);}
+
+.tabs{display:flex;gap:3px;margin-bottom:20px;background:rgba(255,255,255,0.03);border-radius:8px;padding:4px;}
+.tab{flex:1;padding:9px 6px;text-align:center;border:none;background:transparent;color:var(–muted);cursor:pointer;border-radius:6px;font-size:13px;font-weight:600;letter-spacing:0.04em;transition:all 0.2s;font-family:‘DM Sans’,sans-serif;}
+.tab.active{background:rgba(255,255,255,0.08);color:#fff;}
+.tab-panel{display:none;}.tab-panel.active{display:block;}
+
+.btn{font-family:‘Bebas Neue’,sans-serif;letter-spacing:0.15em;font-size:16px;padding:12px 30px;border:none;border-radius:6px;cursor:pointer;transition:all 0.25s;display:inline-flex;align-items:center;gap:8px;}
+.btn-gold{background:linear-gradient(135deg,var(–gold),#e6a800);color:#000;box-shadow:0 4px 20px rgba(255,215,0,0.25);}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(255,215,0,0.4);}
+.btn-ghost{background:rgba(255,255,255,0.04);color:var(–text);border:1px solid var(–border);}
+.btn-ghost:hover{background:rgba(255,255,255,0.08);}
+.btn-sm{font-size:12px;padding:8px 18px;}
+.btn-red{background:rgba(255,59,92,0.15);color:var(–red);border:1px solid rgba(255,59,92,0.3);}
+.btn-red:hover{background:rgba(255,59,92,0.25);}
+
+.phase-banner{background:linear-gradient(135deg,rgba(26,140,255,0.1),rgba(155,89,255,0.06));border:1px solid rgba(26,140,255,0.18);border-radius:10px;padding:13px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:18px;}
+.phase-name{font-family:‘Bebas Neue’,sans-serif;font-size:24px;letter-spacing:0.1em;}
+.phase-info{font-size:12px;color:var(–muted);}
+.phase-badge{background:rgba(255,215,0,0.1);border:1px solid rgba(255,215,0,0.22);border-radius:20px;padding:3px 13px;font-size:11px;font-weight:700;color:var(–gold);letter-spacing:0.1em;}
+
+.section-title{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(19px,3.5vw,26px);letter-spacing:0.12em;color:var(–gold);display:flex;align-items:center;gap:10px;margin-bottom:13px;}
+.section-title::after{content:’’;flex:1;height:1px;background:linear-gradient(90deg,rgba(255,215,0,0.3),transparent);}
+
+.status-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+.status-item{background:rgba(255,255,255,0.03);border:1px solid var(–border);border-radius:8px;padding:9px 13px;flex:1;min-width:75px;text-align:center;}
+.status-val{font-family:‘Bebas Neue’,sans-serif;font-size:21px;color:var(–gold);display:block;}
+.status-lbl{font-size:10px;color:var(–muted);letter-spacing:0.12em;}
+
+/* ════ DRAW ════ */
+.draw-stage{display:flex;flex-direction:column;align-items:center;padding:36px 14px;gap:20px;}
+.draw-ball{width:104px;height:104px;border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(255,255,255,0.2),rgba(255,255,255,0.03));border:2px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:46px;box-shadow:0 0 60px rgba(26,140,255,0.15);transition:all 0.4s;}
+.draw-ball.spinning{animation:ballSpin 0.35s linear infinite;border-color:var(–gold);box-shadow:0 0 60px rgba(255,215,0,0.4);}
+@keyframes ballSpin{0%{transform:rotate(0deg) scale(1);}50%{transform:rotate(180deg) scale(1.08);}100%{transform:rotate(360deg) scale(1);}}
+.draw-pairs{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:8px;width:100%;}
+.draw-pair{background:rgba(255,255,255,0.04);border:1px solid var(–border);border-radius:8px;padding:10px 12px;animation:pairIn 0.4s ease-out;}
+@keyframes pairIn{from{opacity:0;transform:scale(0.9);}to{opacity:1;transform:scale(1);}}
+.pair-num{font-size:10px;letter-spacing:0.3em;color:var(–muted);margin-bottom:5px;}
+.pair-a{color:var(–gold);font-size:13px;font-weight:700;}
+.pair-b{color:var(–blue);font-size:13px;font-weight:700;}
+
+/* ════ MATCH CARDS ════ */
+.matches-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:10px;}
+.match-card{background:linear-gradient(135deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02));border:1px solid var(–border);border-radius:10px;overflow:hidden;transition:all 0.25s;}
+.match-card:not(.played):hover{border-color:rgba(255,215,0,0.3);transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,0.4);}
+.mc-header{padding:6px 12px;background:rgba(0,0,0,0.25);font-size:10px;letter-spacing:0.3em;color:var(–muted);display:flex;justify-content:space-between;}
+.mc-team{display:flex;align-items:center;padding:10px 12px;gap:8px;border-bottom:1px solid rgba(255,255,255,0.04);}
+.mc-team:last-of-type{border-bottom:none;}
+.mc-flag{font-size:18px;}
+.mc-name{flex:1;font-size:13px;font-weight:600;}
+.mc-str{font-size:10px;color:var(–muted);}
+.mc-score{font-family:‘Bebas Neue’,sans-serif;font-size:21px;min-width:22px;text-align:center;}
+.sc-a{color:var(–gold);}
+.sc-b{color:var(–blue);}
+.mc-team.winner{background:rgba(255,215,0,0.06);}
+.mc-team.loser .mc-name{color:var(–muted);}
+.mc-footer{display:flex;border-top:1px solid rgba(255,255,255,0.04);}
+.mc-btn{flex:1;padding:8px;text-align:center;background:transparent;border:none;font-family:‘Bebas Neue’,sans-serif;font-size:12px;letter-spacing:0.12em;cursor:pointer;transition:all 0.2s;color:var(–gold);}
+.mc-btn:hover{background:rgba(255,215,0,0.08);}
+.mc-btn+.mc-btn{border-left:1px solid rgba(255,255,255,0.04);color:var(–muted);}
+
+/* ════════════════════════════════
+LIVE MATCH SCREEN
+════════════════════════════════ */
+.live-overlay{
+position:fixed;inset:0;background:rgba(0,0,0,0.97);
+z-index:800;display:none;flex-direction:column;
+align-items:center;justify-content:flex-start;
+overflow-y:auto;
+}
+.live-overlay.open{display:flex;}
+
+.live-wrap{width:100%;max-width:720px;padding:16px 14px 40px;}
+
+/* SCOREBOARD */
+.live-scoreboard{
+background:linear-gradient(135deg,rgba(26,140,255,0.08),rgba(0,212,106,0.05));
+border:1px solid rgba(255,255,255,0.1);
+border-radius:14px;padding:20px 16px 16px;
+margin-bottom:14px;position:relative;overflow:hidden;
+}
+.live-scoreboard::before{
+content:’’;position:absolute;top:0;left:0;right:0;height:2px;
+background:linear-gradient(90deg,transparent,var(–gold),transparent);
+}
+.live-round-label{text-align:center;font-size:10px;letter-spacing:0.4em;color:var(–muted);margin-bottom:14px;}
+.live-teams-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;margin-bottom:12px;}
+.live-team{text-align:center;}
+.live-flag{font-size:38px;display:block;margin-bottom:5px;transition:transform 0.3s;}
+.live-tname{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(14px,3vw,19px);letter-spacing:0.07em;}
+.live-tstr{font-size:11px;color:var(–muted);}
+.live-center{}
+.live-score-box{display:flex;align-items:center;justify-content:center;gap:8px;font-family:‘Bebas Neue’,sans-serif;font-size:clamp(44px,9vw,64px);line-height:1;}
+.live-sa{color:var(–gold);text-shadow:0 0 25px rgba(255,215,0,0.4);transition:transform 0.2s;}
+.live-sb{color:var(–blue);text-shadow:0 0 25px rgba(26,140,255,0.4);transition:transform 0.2s;}
+.live-sep{color:rgba(255,255,255,0.2);font-size:32px;}
+.score-bump{animation:scoreBump 0.3s ease-out;}
+@keyframes scoreBump{0%{transform:scale(1.6);}100%{transform:scale(1);}}
+
+/* MINUTE + PROGRESS */
+.live-minute-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.live-minute-badge{
+font-family:‘Bebas Neue’,sans-serif;font-size:18px;
+background:rgba(0,212,106,0.12);border:1px solid rgba(0,212,106,0.3);
+border-radius:6px;padding:3px 12px;color:var(–green);
+min-width:60px;text-align:center;
+animation:minuteBlink 1.2s ease-in-out infinite;
+}
+@keyframes minuteBlink{0%,100%{opacity:1;}50%{opacity:0.55;};}
+.live-progress-bar{flex:1;height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;}
+.live-progress-fill{height:100%;background:linear-gradient(90deg,var(–green),var(–gold));border-radius:3px;transition:width 0.8s linear;}
+.live-half-badge{font-size:11px;letter-spacing:0.2em;color:var(–muted);white-space:nowrap;}
+
+/* LIVE POSSESSION */
+.live-poss-row{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+.live-poss-label{font-size:10px;color:var(–muted);min-width:32px;text-align:right;}
+.live-poss-bar{flex:1;height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;display:flex;}
+.live-poss-a{height:100%;background:var(–gold);transition:width 1s ease;}
+.live-poss-b{height:100%;background:var(–blue);transition:width 1s ease;}
+.live-poss-val-a{font-size:11px;font-weight:700;color:var(–gold);min-width:32px;}
+.live-poss-val-b{font-size:11px;font-weight:700;color:var(–blue);min-width:32px;text-align:right;}
+
+/* GOAL BANNER */
+.goal-banner{
+display:none;
+position:fixed;
+top:0;left:0;right:0;bottom:0;
+background:rgba(0,0,0,0.75);
+z-index:900;
+align-items:center;justify-content:center;
+flex-direction:column;
+gap:8px;
+}
+.goal-banner.show{display:flex;}
+.goal-banner-text{
+font-family:‘Bebas Neue’,sans-serif;
+font-size:clamp(72px,18vw,130px);
+letter-spacing:0.05em;
+color:var(–gold);
+text-shadow:0 0 80px rgba(255,215,0,0.8),0 0 160px rgba(255,215,0,0.4);
+animation:goalPop 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes goalPop{from{transform:scale(0.3) rotate(-8deg);opacity:0;}to{transform:scale(1);opacity:1;}}
+.goal-banner-scorer{font-size:20px;letter-spacing:0.2em;color:rgba(255,255,255,0.8);animation:fadeUp 0.4s ease-out 0.25s both;}
+.goal-banner-team{font-size:14px;letter-spacing:0.3em;color:var(–muted);animation:fadeUp 0.4s ease-out 0.4s both;}
+@keyframes fadeUp{from{transform:translateY(16px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+
+/* HALFTIME BANNER */
+.halftime-banner{
+display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);
+z-index:890;align-items:center;justify-content:center;flex-direction:column;gap:6px;
+}
+.halftime-banner.show{display:flex;}
+.ht-text{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(36px,8vw,64px);letter-spacing:0.12em;color:var(–blue);text-shadow:0 0 40px rgba(26,140,255,0.6);}
+.ht-sub{font-size:12px;letter-spacing:0.4em;color:var(–muted);}
+.ht-score{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(28px,6vw,44px);color:#fff;margin-top:4px;}
+
+/* EVENTS LOG */
+.events-panel{
+background:rgba(0,0,0,0.4);border:1px solid var(–border);
+border-radius:10px;overflow:hidden;margin-bottom:12px;
+}
+.events-header{
+padding:8px 14px;background:rgba(255,255,255,0.03);
+font-size:10px;letter-spacing:0.3em;color:var(–muted);
+display:flex;justify-content:space-between;align-items:center;
+}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(–red);animation:liveDot 0.8s ease-in-out infinite alternate;}
+@keyframes liveDot{from{opacity:1;}to{opacity:0.2;};}
+.events-log{height:220px;overflow-y:auto;padding:0 0 4px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.1) transparent;}
+.event-line{
+display:flex;align-items:center;gap:9px;
+padding:8px 14px;border-bottom:1px solid rgba(255,255,255,0.03);
+font-size:13px;animation:eventIn 0.35s ease-out;
+}
+@keyframes eventIn{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
+.event-line.goal{background:rgba(0,212,106,0.06);border-left:3px solid var(–green);}
+.event-line.danger{background:rgba(255,59,92,0.05);border-left:3px solid var(–red);}
+.event-line.chance{background:rgba(255,165,0,0.05);border-left:3px solid orange;}
+.event-line.yellow{background:rgba(255,215,0,0.04);}
+.event-line.kick{background:rgba(26,140,255,0.04);}
+.ev-min{font-family:‘Bebas Neue’,sans-serif;font-size:16px;color:var(–gold);min-width:34px;}
+.ev-icon{font-size:16px;min-width:20px;text-align:center;}
+.ev-text{flex:1;line-height:1.4;}
+.ev-text strong{color:#fff;}
+
+/* LIVE STATS ROW */
+.live-stats-mini{
+display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;
+}
+.lsm{background:rgba(255,255,255,0.03);border:1px solid var(–border);border-radius:8px;padding:9px;text-align:center;}
+.lsm-label{font-size:10px;color:var(–muted);margin-bottom:4px;letter-spacing:0.1em;}
+.lsm-vals{display:flex;justify-content:space-between;align-items:center;gap:6px;}
+.lsm-a{font-family:‘Bebas Neue’,sans-serif;font-size:18px;color:var(–gold);}
+.lsm-b{font-family:‘Bebas Neue’,sans-serif;font-size:18px;color:var(–blue);}
+.lsm-bar{flex:1;height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;display:flex;}
+.lsm-bar-a{height:100%;background:var(–gold);transition:width 0.8s ease;}
+.lsm-bar-b{height:100%;background:var(–blue);transition:width 0.8s ease;}
+
+.live-footer-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+
+/* SUMMARY OVERLAY */
+.summary-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:850;display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:14px;}
+.summary-overlay.open{display:flex;}
+.summary-panel{background:var(–dark2);border:1px solid rgba(255,255,255,0.1);border-radius:14px;width:100%;max-width:620px;overflow:hidden;animation:panelIn 0.4s cubic-bezier(0.34,1.56,0.64,1);margin:auto;}
+@keyframes panelIn{from{transform:scale(0.88) translateY(30px);opacity:0;}to{transform:scale(1) translateY(0);opacity:1;}}
+.sp-hero{background:linear-gradient(135deg,rgba(255,215,0,0.07),rgba(26,140,255,0.05));padding:22px 18px;text-align:center;position:relative;}
+.sp-hero::before{content:’’;position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(–gold),transparent);}
+.sp-round{font-size:10px;letter-spacing:0.4em;color:var(–muted);margin-bottom:10px;}
+.sp-teams-grid{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;}
+.sp-team{text-align:center;}
+.sp-flag{font-size:38px;display:block;margin-bottom:5px;}
+.sp-name{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(14px,2.8vw,18px);letter-spacing:0.07em;}
+.sp-score-box{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(44px,9vw,62px);line-height:1;display:flex;align-items:center;gap:7px;}
+.sp-sa{color:var(–gold);text-shadow:0 0 25px rgba(255,215,0,0.5);}
+.sp-sep{color:rgba(255,255,255,0.2);font-size:28px;}
+.sp-sb{color:var(–blue);text-shadow:0 0 25px rgba(26,140,255,0.5);}
+.sp-winner-tag{margin-top:11px;display:inline-block;background:rgba(255,215,0,0.1);border:1px solid rgba(255,215,0,0.28);border-radius:20px;padding:3px 16px;font-size:11px;font-weight:700;color:var(–gold);letter-spacing:0.12em;}
+.sp-body{padding:16px 18px;}
+.sp-stitle{font-family:‘Bebas Neue’,sans-serif;font-size:14px;letter-spacing:0.2em;color:var(–muted);margin:16px 0 8px;display:flex;align-items:center;gap:7px;}
+.sp-stitle::before{content:’’;width:3px;height:12px;background:var(–gold);border-radius:2px;}
+.lineup-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(–border);border-radius:8px;overflow:hidden;}
+.lineup-col{padding:11px 12px;}
+.lineup-col:first-child{border-right:1px solid var(–border);}
+.lineup-header{font-size:11px;font-weight:700;letter-spacing:0.12em;margin-bottom:7px;display:flex;align-items:center;gap:5px;}
+.lineup-pos{font-size:9px;letter-spacing:0.2em;color:var(–muted);margin:5px 0 2px;text-transform:uppercase;}
+.lineup-player{font-size:12px;padding:2px 0;color:rgba(255,255,255,0.75);display:flex;align-items:center;justify-content:space-between;gap:4px;}
+.lineup-player.scorer{color:var(–green);font-weight:700;}
+.player-note{font-family:‘Bebas Neue’,sans-serif;font-size:13px;border-radius:4px;padding:1px 6px;min-width:28px;text-align:center;flex-shrink:0;}
+.timeline{display:flex;flex-direction:column;gap:5px;}
+.tl-item{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:6px;background:rgba(255,255,255,0.03);font-size:13px;}
+.tl-item.a-side{border-left:3px solid var(–gold);}
+.tl-item.b-side{border-left:3px solid var(–blue);flex-direction:row-reverse;text-align:right;}
+.tl-min{font-family:‘Bebas Neue’,sans-serif;font-size:15px;color:var(–gold);min-width:32px;text-align:center;}
+.tl-item.b-side .tl-min{color:var(–blue);}
+.tl-scorer{font-weight:700;font-size:13px;}
+.tl-team{font-size:10px;color:var(–muted);}
+.stats-row{display:flex;align-items:center;gap:7px;margin-bottom:7px;font-size:12px;}
+.stat-val{min-width:26px;text-align:center;font-weight:700;}
+.stat-bar-wrap{flex:1;height:4px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;}
+.stat-bar-inner{height:100%;border-radius:3px;}
+.stat-label{min-width:68px;text-align:center;color:var(–muted);}
+.pen-tag{text-align:center;padding:6px;background:rgba(155,89,255,0.08);border-radius:6px;font-size:12px;color:#9b59ff;margin-top:6px;}
+.sp-footer{padding:13px 18px;border-top:1px solid var(–border);display:flex;gap:8px;justify-content:flex-end;}
+
+/* SCORERS */
+.scorers-list{display:flex;flex-direction:column;gap:7px;}
+.scorer-row{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.03);border:1px solid var(–border);border-radius:8px;padding:10px 13px;transition:all 0.2s;}
+.scorer-row:hover{background:rgba(255,255,255,0.05);transform:translateX(4px);}
+.scorer-rank{font-family:‘Bebas Neue’,sans-serif;font-size:20px;min-width:24px;text-align:center;}
+.rank-1{color:var(–gold);}
+.rank-2{color:#b0bec5;}
+.rank-3{color:#cd7f32;}
+.scorer-info{flex:1;}
+.scorer-name{font-size:14px;font-weight:700;}
+.scorer-team{font-size:11px;color:var(–muted);}
+.scorer-goals{font-family:‘Bebas Neue’,sans-serif;font-size:24px;color:var(–gold);}
+.scorer-goals small{font-size:11px;color:var(–muted);font-family:‘DM Sans’,sans-serif;}
+.scorer-bar-wrap{width:60px;height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;}
+.scorer-bar-fill{height:100%;background:linear-gradient(90deg,var(–gold),var(–gold2));border-radius:2px;}
+
+/* QUALIF / CHAMPION */
+.qualif-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(105px,1fr));gap:8px;margin-bottom:18px;}
+.qualif-card{background:rgba(255,215,0,0.05);border:1px solid rgba(255,215,0,0.14);border-radius:8px;padding:10px 6px;text-align:center;animation:pairIn 0.4s ease-out both;}
+.qc-flag{font-size:24px;display:block;margin-bottom:4px;}
+.qc-name{font-size:10px;font-weight:700;}
+.champ-screen{text-align:center;padding:46px 16px;background:radial-gradient(ellipse at 50% 50%,rgba(255,215,0,0.1) 0%,transparent 60%);border-radius:14px;margin-top:14px;}
+.champ-trophy{font-size:78px;display:block;margin-bottom:13px;animation:trophyWin 0.8s cubic-bezier(0.34,1.56,0.64,1),trophyFloat 3s ease-in-out 0.8s infinite;filter:drop-shadow(0 0 40px rgba(255,215,0,0.7));}
+@keyframes trophyWin{from{transform:scale(0) rotate(-20deg);opacity:0;}to{transform:scale(1);opacity:1;}}
+@keyframes trophyFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-11px);}}
+.champ-suptitle{font-size:11px;letter-spacing:0.5em;color:var(–muted);margin-bottom:9px;}
+.champ-flag{font-size:56px;display:block;margin-bottom:9px;}
+.champ-name{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(42px,9vw,74px);letter-spacing:0.08em;color:var(–gold);text-shadow:0 0 60px rgba(255,215,0,0.6);margin-bottom:5px;}
+.champ-tag{font-size:13px;letter-spacing:0.4em;color:var(–muted);margin-bottom:28px;}
+.hist-match{background:rgba(255,255,255,0.03);border:1px solid var(–border);border-radius:8px;padding:11px 13px;display:flex;align-items:center;gap:9px;margin-bottom:6px;cursor:pointer;transition:all 0.2s;}
+.hist-match:hover{background:rgba(255,255,255,0.05);border-color:rgba(255,215,0,0.2);}
+
+.notif{position:fixed;top:14px;left:50%;transform:translateX(-50%) translateY(-80px);z-index:999;background:var(–dark3);border:1px solid rgba(255,215,0,0.3);border-radius:10px;padding:10px 18px;font-size:14px;font-weight:600;box-shadow:0 8px 32px rgba(0,0,0,0.5);transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);white-space:nowrap;max-width:92vw;text-align:center;}
+.notif.show{transform:translateX(-50%) translateY(0);}
+.confetti-wrap{position:fixed;inset:0;pointer-events:none;z-index:950;overflow:hidden;}
+.cf{position:absolute;top:-20px;animation:cfFall linear forwards;}
+@keyframes cfFall{to{transform:translateY(110vh) rotate(720deg);opacity:0;}}
+
+@media(max-width:480px){
+.live-flag{font-size:28px;}
+.live-score-box{font-size:44px;}
+.sp-score-box{font-size:40px;}
+.lineup-grid{grid-template-columns:1fr;}
+.lineup-col:first-child{border-right:none;border-bottom:1px solid var(–border);}
+.live-stats-mini{grid-template-columns:repeat(2,1fr);}
+}
+</style>
+
+</head>
+<body>
+
+<div class="confetti-wrap" id="confetti-wrap"></div>
+<div class="goal-banner" id="goal-banner">
+<div class="goal-banner-text">⚽ BUT !</div>
+<div class="goal-banner-scorer" id="goal-banner-scorer"></div>
+<div class="goal-banner-team" id="goal-banner-team"></div>
+</div>
+<div class="halftime-banner" id="halftime-banner">
+<div class="ht-text">⏸ MI-TEMPS</div>
+<div class="ht-sub">RETOUR AU JEU DANS 2 SECONDES</div>
+<div class="ht-score" id="ht-score"></div>
+</div>
+<div class="live-overlay" id="live-overlay"></div>
+<div class="summary-overlay" id="summary-overlay"></div>
+<div class="notif" id="notif"></div>
+<button class="sound-toggle" id="sound-toggle" onclick="toggleSound()">🔊</button>
+
+<div class="app">
+<header class="site-header">
+<div class="site-logo">⚽ WORLD CUP ELITE 2025</div>
+<div class="site-sub">Tournoi des 16 Meilleures Équipes du Monde</div>
+</header>
+<div class="tabs">
+<button class="tab active" onclick="switchTab('bracket')">🏆 Tournoi</button>
+<button class="tab" onclick="switchTab('scorers')">⚽ Buteurs</button>
+<button class="tab" onclick="switchTab('history')">📋 Matchs</button>
+</div>
+<div class="tab-panel active" id="tab-bracket"><div id="bracket-content"></div></div>
+<div class="tab-panel" id="tab-scorers"><div class="section-title">⚽ Classement des Buteurs</div><div id="scorers-content" class="scorers-list"></div></div>
+<div class="tab-panel" id="tab-history"><div class="section-title">📋 Résumés des Matchs</div><div id="history-content"></div></div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// AUDIO ENGINE
+// ══════════════════════════════════════════
+let soundEnabled=true, audioCtx=null, crowdNode=null, crowdGain=null;
+function getCtx(){if(!audioCtx){audioCtx=new(window.AudioContext||window.webkitAudioContext)();}if(audioCtx.state==='suspended')audioCtx.resume();return audioCtx;}
+
+function toggleSound(){soundEnabled=!soundEnabled;document.getElementById('sound-toggle').textContent=soundEnabled?'🔊':'🔇';if(!soundEnabled)stopCrowd();}
+
+function playTone(freq,type,duration,vol,delay=0,freqEnd=null){
+if(!soundEnabled)return;
+try{
+const ctx=getCtx(),now=ctx.currentTime+delay;
+const o=ctx.createOscillator(),g=ctx.createGain();
+o.connect(g);g.connect(ctx.destination);
+o.type=type;o.frequency.setValueAtTime(freq,now);
+if(freqEnd)o.frequency.linearRampToValueAtTime(freqEnd,now+duration);
+g.gain.setValueAtTime(vol,now);g.gain.exponentialRampToValueAtTime(0.001,now+duration);
+o.start(now);o.stop(now+duration+0.01);
+}catch(e){}
+}
+
+function playWhistle(type='short'){
+if(!soundEnabled)return;
+try{
+const ctx=getCtx(),now=ctx.currentTime;
+if(type==='short'){
+// Short pip
+playTone(2600,'sawtooth',0.18,0.25,0,2900);
+} else if(type==='double'){
+playTone(2600,'sawtooth',0.15,0.25,0,2900);
+playTone(2600,'sawtooth',0.15,0.25,0.22,2900);
+} else {
+// Long final whistle
+playTone(2500,'sawtooth',0.12,0.3,0,2800);
+playTone(2500,'sawtooth',0.12,0.3,0.18,2800);
+playTone(2500,'sawtooth',0.35,0.35,0.36,3000);
+}
+}catch(e){}
+}
+
+function startCrowd(intensity=0.15){
+if(!soundEnabled)return;
+try{
+stopCrowd();
+const ctx=getCtx();
+const bufSize=ctx.sampleRate*3;
+const buf=ctx.createBuffer(2,bufSize,ctx.sampleRate);
+for(let ch=0;ch<2;ch++){const d=buf.getChannelData(ch);for(let i=0;i<bufSize;i++)d[i]=(Math.random()*2-1);}
+const src=ctx.createBufferSource();src.buffer=buf;src.loop=true;
+const filt=ctx.createBiquadFilter();filt.type='bandpass';filt.frequency.value=450;filt.Q.value=0.6;
+crowdGain=ctx.createGain();crowdGain.gain.setValueAtTime(0,ctx.currentTime);
+crowdGain.gain.linearRampToValueAtTime(intensity,ctx.currentTime+0.5);
+src.connect(filt);filt.connect(crowdGain);crowdGain.connect(ctx.destination);
+src.start();crowdNode=src;
+}catch(e){}
+}
+
+function setCrowdIntensity(val){
+if(!soundEnabled||!crowdGain)return;
+try{const ctx=getCtx();crowdGain.gain.linearRampToValueAtTime(Math.max(0.001,val),ctx.currentTime+0.4);}catch(e){}
+}
+
+function stopCrowd(){
+try{if(crowdNode){crowdNode.stop();crowdNode=null;crowdGain=null;}}catch(e){}
+}
+
+function playGoalSound(){
+if(!soundEnabled)return;
+// Crowd explosion
+setCrowdIntensity(0.7);
+setTimeout(()=>setCrowdIntensity(0.5),800);
+setTimeout(()=>setCrowdIntensity(0.3),2000);
+setTimeout(()=>setCrowdIntensity(0.15),3500);
+// Horn
+playTone(440,'sawtooth',0.08,0.35,0,660);
+playTone(550,'sawtooth',0.08,0.35,0.1,770);
+playTone(660,'triangle',0.3,0.3,0.2);
+}
+
+function playDangerSound(){
+if(!soundEnabled)return;
+setCrowdIntensity(0.25);
+setTimeout(()=>setCrowdIntensity(0.15),600);
+playTone(330,'triangle',0.2,0.15);
+}
+
+function playYellowCard(){
+if(!soundEnabled)return;
+playTone(800,'sine',0.15,0.2);
+playTone(600,'sine',0.15,0.2,0.18);
+}
+
+function playDraw(){
+if(!soundEnabled)return;
+for(let i=0;i<8;i++){playTone(200+i*30,'triangle',0.09,0.15,i*0.065);}
+playTone(880,'sine',0.35,0.28,0.55);
+}
+
+function playChampion(){
+if(!soundEnabled)return;
+const n=[523,659,784,523,659,784,1047];
+n.forEach((f,i)=>playTone(f,'triangle',0.4,0.3,i*0.19));
+}
+
+function playWin(){
+if(!soundEnabled)return;
+[523,659,784,1047].forEach((f,i)=>playTone(f,'triangle',0.3,0.28,i*0.13));
+}
+
+// ══════════════════════════════════════════
+// TEAMS
+// ══════════════════════════════════════════
+const TEAMS=[
+{name:"Real Madrid", abbr:"RMA",flag:"🇪🇸",str:93, squad:{GK:["Courtois"],DEF:["Garcia","Huijsen","Rüdiger","Alexander-Arnold"],MID:["Arda Güler","Tchouaméni","Mbappé","Valverde"],ATT:["Vinícius Junior","Brahim Díaz"]}},
+{name:"Manchester City", abbr:"MCI",flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",str:92, squad:{GK:["Donnarumma"],DEF:["Nunes","Khusanov","Rúben Dias","Aït-Nouri"],MID:["Bernardo Silva","Rodri","Cherki","Reijnders","Doku"],ATT:["Haaland"]}},
+{name:"FC Barcelone", abbr:"FCB",flag:"🇪🇸",str:90, squad:{GK:["Garcia"],DEF:["Eric García","Cubarsí","Martin","Cancelo"],MID:["Marc Bernal","Pedri","Lamine Yamal","Fermín López","Raphinha"],ATT:["Lewandowski"]}},
+{name:"PSG", abbr:"PSG",flag:"🇫🇷",str:89, squad:{GK:["Safonov"],DEF:["Hakimi","Marquinhos","Pacho","Nuno Mendes"],MID:["Zaïre-Emery","Vitinha","João Neves"],ATT:["Doué","Dembélé","Barcola"]}},
+{name:"Bayern Munich", abbr:"BAY",flag:"🇩🇪",str:88, squad:{GK:["Urbig"],DEF:["Laimer","Tah","Upamecano","Stanisic"],MID:["Pavlovic","Kimmich","Luis Díaz","Gnabry","Olise"],ATT:["Jackson"]}},
+{name:"Arsenal", abbr:"ARS",flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",str:87, squad:{GK:["Raya"],DEF:["Ben White","Saliba","Gabriel","Hincapié"],MID:["Zubimendi","Rice","Saka","Eze","Trossard"],ATT:["Gyökeres"]}},
+{name:"Borussia Dortmund",abbr:"BVB",flag:"🇩🇪",str:85, squad:{GK:["Kobel"],DEF:["Reggiani","Anton","Schlotterbeck"],MID:["Ryerson","Sabitzer","Bellingham","Nmecha","Svensson"],ATT:["Adeyemi","Beier"]}},
+{name:"Chelsea", abbr:"CHE",flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",str:84, squad:{GK:["Jorgensen"],DEF:["Cucurella","Chalobah","Fofana","Gusto"],MID:["Caicedo","Reece James","Neto","Enzo Fernández","Palmer"],ATT:["João Pedro"]}},
+{name:"Inter Milan", abbr:"INT",flag:"🇮🇹",str:88, squad:{GK:["Sommer"],DEF:["Bisseck","Akanji","Carlos Augusto"],MID:["Dumfries","Barella","Zielinski","Sucic","Dimarco"],ATT:["Thuram","Esposito"]}},
+{name:"Atlético Madrid", abbr:"ATM",flag:"🇪🇸",str:86, squad:{GK:["Musso"],DEF:["Ruggeri","Hancko","Le Normand","Molina"],MID:["Lookman","Cardoso","Llorente","Simeone"],ATT:["Julián Álvarez","Griezmann"]}},
+{name:"Liverpool", abbr:"LIV",flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",str:90, squad:{GK:["Alisson"],DEF:["Frimpong","Konaté","van Dijk","Kerkez"],MID:["Gravenberch","Szoboszlai","Wirtz","Mac Allister"],ATT:["Salah","Ekitiké"]}},
+{name:"Benfica", abbr:"BEN",flag:"🇵🇹",str:81, squad:{GK:["Trubin"],DEF:["Dahl","Silva","Araujo","Bah"],MID:["Rios","Barreiro"],ATT:["Schjelderup","Rafa Silva","Lukebakio","Pavlidis"]}},
+{name:"Ajax Amsterdam", abbr:"AJX",flag:"🇳🇱",str:82, squad:{GK:["Paes"],DEF:["Rosa","Sutalo","Baas","Tomiyasu"],MID:["Klaassen","Regeer","Steur"],ATT:["Berghuis","Konadu","Godts"]}},
+{name:"SSC Napoli", abbr:"NAP",flag:"🇮🇹",str:83, squad:{GK:["Meret"],DEF:["Beukema","Buongiorno","Olivera"],MID:["Politano","Anguissa","Gilmour","Spinazzola"],ATT:["Elmas","Alisson Santos","Hojlund"]}},
+{name:"AC Milan", abbr:"ACM",flag:"🇮🇹",str:84, squad:{GK:["Maignan"],DEF:["Tomori","De Winter","Pavlovic"],MID:["Saelemaekers","Fofana","Modric","Rabiot","Estupinan"],ATT:["Pulisic","Leao"]}},
+{name:"FC Porto", abbr:"POR",flag:"🇵🇹",str:80, squad:{GK:["Costa"],DEF:["Zaidu","Bednarek","Thiago Silva","Costa"],MID:["Mora","Rosario","Fofana"],ATT:["Sainz","Moffi","William Gomes"]}}
+];
+
+const NEUTRAL_EVENTS=[
+{text:"Belle passe en profondeur dans le couloir droit",icon:"👟"},
+{text:"Centre repoussé par la défense en corner",icon:"🙌"},
+{text:"Beau jeu de passes combinées au milieu",icon:"🔄"},
+{text:"Le portier sort sur sa ligne pour capter",icon:"🧤"},
+{text:"Duel physique dans l'axe, faute sifflée",icon:"💪"},
+{text:"Contre-attaque stoppée en extrémis",icon:"🛡️"},
+{text:"Corner botté, dégagement en touche",icon:"📐"},
+{text:"Tir croisé à côté du poteau gauche",icon:"😮"},
+{text:"Le VAR vérifie une action litigieuse...",icon:"📺"},
+{text:"Pression défensive bien organisée",icon:"⚙️"},
+{text:"Passe lobée interceptée dans les airs",icon:"✈️"},
+{text:"Le milieu récupère et relance rapidement",icon:"💨"},
+];
+const CHANCE_EVENTS=[
+{text:"ÉNORME OCCASION ! La frappe passe au-dessus !",icon:"😱"},
+{text:"INCROYABLE ! Le poteau repousse la frappe !",icon:"🏗️"},
+{text:"Le gardien effectue un arrêt réflexe prodigieux !",icon:"🧤"},
+{text:"Face à face manqué ! Quel gâchis !",icon:"🤦"},
+];
+const YELLOW_EVENTS=[
+{text:"Carton jaune pour faute grossière !",icon:"🟨"},
+{text:"L'arbitre sort le jaune après une faute tactique",icon:"🟨"},
+];
+
+const ROUND_NAMES=["Huitièmes de Finale","Quarts de Finale","Demi-Finales","Finale"];
+
+// ══════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════
+let state={phase:'draw',round:0,roundMatches:[],allMatches:[],scorers:{},champion:null};
+
+// ══════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════
+const ri=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const pick=arr=>arr[ri(0,arr.length-1)];
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=ri(0,i);[b[i],b[j]]=[b[j],b[i]];}return b;}
+function getAllPlayers(t){const s=t.squad;return[...(s.ATT||[]),...(s.MID||[]),...(s.DEF||[])];}
+
+function notify(msg,dur=2600){
+const el=document.getElementById('notif');el.textContent=msg;el.classList.add('show');
+clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),dur);
+}
+function spawnConfetti(n=60){
+const w=document.getElementById('confetti-wrap');
+const c=['#FFD700','#FF6B6B','#4af9ff','#00FF88','#FF88FF','#fff','#FF9900'];
+for(let i=0;i<n;i++){
+const el=document.createElement('div');el.className='cf';
+el.style.cssText=`left:${Math.random()*100}vw;background:${pick(c)};width:${ri(6,12)}px;height:${ri(6,12)}px;border-radius:${Math.random()>0.5?'50%':'2px'};animation-duration:${ri(1800,3200)}ms;animation-delay:${ri(0,600)}ms;opacity:1;`;
+w.appendChild(el);setTimeout(()=>el.remove(),3800);
+}
+}
+
+function switchTab(tab){
+['bracket','scorers','history'].forEach((t,i)=>{
+document.querySelectorAll('.tab')[i].classList.toggle('active',t===tab);
+document.querySelectorAll('.tab-panel')[i].classList.toggle('active',t===tab);
+});
+if(tab==='scorers')renderScorers();
+if(tab==='history')renderHistory();
+}
+
+// ══════════════════════════════════════════
+// GENERATE MATCH EVENTS (pre-compute)
+// ══════════════════════════════════════════
+function generateEvents(tA,tB){
+const diff=(tA.str-tB.str)/100;
+const probA=Math.min(0.76,Math.max(0.24,0.5+diff*1.8));
+const totalGoals=ri(0,5);
+const events=[];
+const minsUsed=new Set();
+
+// Goals
+for(let i=0;i<totalGoals;i++){
+let min;do{min=ri(3,89);}while(minsUsed.has(min));
+minsUsed.add(min);
+const side=Math.random()<probA?'a':'b';
+const team=side==='a'?tA:tB;
+events.push({min,type:'goal',side,player:pick(getAllPlayers(team)),team});
+}
+
+// Yellow cards
+const yellows=ri(0,3);
+for(let i=0;i<yellows;i++){
+let min;do{min=ri(10,88);}while(minsUsed.has(min));
+minsUsed.add(min);
+const side=Math.random()<0.5?'a':'b';
+const team=side==='a'?tA:tB;
+events.push({min,type:'yellow',side,player:pick(getAllPlayers(team)),team});
+}
+
+// Chances
+const chances=ri(2,5);
+for(let i=0;i<chances;i++){
+let min;do{min=ri(5,88);}while(minsUsed.has(min));
+minsUsed.add(min);
+const side=Math.random()<probA?'a':'b';
+events.push({min,type:'chance',side});
+}
+
+// Neutral
+const neutralMins=[12,22,32,42,53,63,73,83];
+neutralMins.forEach(m=>{
+if(!minsUsed.has(m)){minsUsed.add(m);events.push({min:m,type:'neutral'});}
+});
+
+events.sort((a,b)=>a.min-b.min);
+return events;
+}
+
+// ══════════════════════════════════════════
+// LIVE MATCH (60 seconds = 90 minutes)
+// ══════════════════════════════════════════
+let liveInterval=null,liveData=null;
+
+function playMatchLive(pairIdx){
+const pair=state.roundMatches[pairIdx];
+const tA=pair[0],tB=pair[1];
+
+// Pre-generate events
+const events=generateEvents(tA,tB);
+const goals=events.filter(e=>e.type==='goal');
+const penalties=checkPenalties(goals,tA,tB);
+
+liveData={
+pairIdx,tA,tB,events,goals,penalties,
+sA:0,sB:0,
+minute:0,
+evIdx:0,
+shotsA:0,shotsB:0,
+yA:0,yB:0,
+posA:50,
+halfDone:false,
+finished:false,
+loggedEvents:[],
+htSA:0,htSB:0
+};
+
+buildLiveScreen();
+document.getElementById('live-overlay').classList.add('open');
+
+// Whistle to start
+playWhistle('short');
+startCrowd(0.15);
+
+// 60s = 90 min => each real second = 1.5 min
+const totalRealMs=60000;
+const intervalMs=350; // update every 350ms = ~0.5 game minutes per tick
+let elapsed=0;
+
+liveInterval=setInterval(()=>{
+elapsed+=intervalMs;
+const progress=Math.min(elapsed/totalRealMs,1);
+liveData.minute=Math.floor(progress*90);
+
+// Halftime at exactly 45'
+if(!liveData.halfDone && liveData.minute>=45){
+liveData.halfDone=true;
+liveData.htSA=liveData.sA;
+liveData.htSB=liveData.sB;
+triggerHalftime();
+}
+
+// Process events due this minute
+while(liveData.evIdx<liveData.events.length && liveData.events[liveData.evIdx].min<=liveData.minute){
+processLiveEvent(liveData.events[liveData.evIdx]);
+liveData.evIdx++;
+}
+
+// Update possession — always whole number, A+B = 100
+const rawPoss=liveData.posA+(Math.random()-0.5)*4;
+liveData.posA=Math.round(Math.max(35,Math.min(65,rawPoss)));
+
+updateLiveHUD();
+
+if(progress>=1){
+clearInterval(liveInterval);
+setTimeout(()=>endLiveMatch(),800);
+}
+},intervalMs);
+}
+
+function triggerHalftime(){
+playWhistle('double');
+setTimeout(()=>setCrowdIntensity(0.2),300);
+const banner=document.getElementById('halftime-banner');
+document.getElementById('ht-score').textContent=`${liveData.tA.flag} ${liveData.htSA} — ${liveData.htSB} ${liveData.tB.flag}`;
+banner.classList.add('show');
+setTimeout(()=>{
+banner.classList.remove('show');
+playWhistle('short');
+},2200);
+}
+
+function processLiveEvent(ev){
+if(ev.type==='goal'){
+if(ev.side==='a') liveData.sA++;
+else liveData.sB++;
+liveData.shotsA+=(ev.side==='a'?1:0);
+liveData.shotsB+=(ev.side==='b'?1:0);
+addLiveEvent(ev.min,'goal',`⚽ BUT ! <strong>${ev.player}</strong> — ${ev.team.flag} ${ev.team.name}`,ev.side);
+showGoalBanner(ev.player,ev.team);
+playGoalSound();
+spawnConfetti(30);
+// Register scorer
+const key=ev.player+'_'+ev.team.abbr;
+if(!state.scorers[key])state.scorers[key]={name:ev.player,team:ev.team.name,flag:ev.team.flag,abbr:ev.team.abbr,goals:0};
+state.scorers[key].goals++;
+// Bump score display
+const el=document.getElementById(ev.side==='a'?'live-sa':'live-sb');
+if(el){el.classList.remove('score-bump');void el.offsetWidth;el.classList.add('score-bump');}
+// Shake flag
+const flagEl=document.getElementById(ev.side==='a'?'live-flag-a':'live-flag-b');
+if(flagEl){flagEl.style.transform='scale(1.4)';setTimeout(()=>flagEl.style.transform='',500);}
+}
+else if(ev.type==='chance'){
+liveData.shotsA+=(ev.side==='a'?1:0);
+liveData.shotsB+=(ev.side==='b'?1:0);
+const c=pick(CHANCE_EVENTS);
+const team=ev.side==='a'?liveData.tA:liveData.tB;
+addLiveEvent(ev.min,'chance',`${c.icon} ${c.text} (${team.flag} ${team.name})`,ev.side);
+playDangerSound();
+}
+else if(ev.type==='yellow'){
+liveData.yA+=(ev.side==='a'?1:0);
+liveData.yB+=(ev.side==='b'?1:0);
+const y=pick(YELLOW_EVENTS);
+addLiveEvent(ev.min,'yellow',`${y.icon} ${y.text} — <strong>${ev.player}</strong> (${ev.team.flag})`,ev.side);
+playYellowCard();
+}
+else if(ev.type==='neutral'){
+const n=pick(NEUTRAL_EVENTS);
+addLiveEvent(ev.min,'neutral',`${n.icon} ${n.text}`,'');
+}
+}
+
+function addLiveEvent(min,type,text,side){
+const log=document.getElementById('events-log');
+if(!log)return;
+const div=document.createElement('div');
+div.className=`event-line ${type}`;
+div.innerHTML=`<span class="ev-min">${min}'</span><span class="ev-text">${text}</span>`;
+log.prepend(div);
+liveData.loggedEvents.unshift({min,type,text,side});
+// Keep max 40 entries
+while(log.children.length>40)log.removeChild(log.lastChild);
+}
+
+let goalBannerTimeout;
+function showGoalBanner(player,team){
+const b=document.getElementById('goal-banner');
+document.getElementById('goal-banner-scorer').textContent=player;
+document.getElementById('goal-banner-team').textContent=`${team.flag} ${team.name}`;
+b.classList.add('show');
+clearTimeout(goalBannerTimeout);
+goalBannerTimeout=setTimeout(()=>b.classList.remove('show'),2400);
+}
+
+function updateLiveHUD(){
+const m=liveData.minute;
+const el=document.getElementById('live-minute');
+if(el) el.textContent=m<=90?`${m}'`:m+"'";
+const prog=document.getElementById('live-progress');
+if(prog) prog.style.width=`${Math.min(m/90*100,100)}%`;
+const half=document.getElementById('live-half');
+if(half) half.textContent=m<45?'1ère MI-TEMPS':'2ème MI-TEMPS';
+
+const elSA=document.getElementById('live-sa');
+const elSB=document.getElementById('live-sb');
+if(elSA) elSA.textContent=liveData.sA;
+if(elSB) elSB.textContent=liveData.sB;
+
+// Possession — always whole numbers that sum to 100
+const pA=Math.round(liveData.posA);
+const pB=100-pA;
+const pAel=document.getElementById('poss-a');
+const pBel=document.getElementById('poss-b');
+const pAbar=document.getElementById('poss-bar-a');
+const pBbar=document.getElementById('poss-bar-b');
+if(pAel)pAel.textContent=pA+'%';
+if(pBel)pBel.textContent=pB+'%';
+if(pAbar)pAbar.style.width=pA+'%';
+if(pBbar)pBbar.style.width=pB+'%';
+
+// Mini stats
+const shA=document.getElementById('shots-a'),shB=document.getElementById('shots-b');
+const shBarA=document.getElementById('shots-bar-a'),shBarB=document.getElementById('shots-bar-b');
+if(shA)shA.textContent=liveData.shotsA;
+if(shB)shB.textContent=liveData.shotsB;
+const totSh=liveData.shotsA+liveData.shotsB||1;
+if(shBarA)shBarA.style.width=`${liveData.shotsA/totSh*100}%`;
+if(shBarB)shBarB.style.width=`${liveData.shotsB/totSh*100}%`;
+
+const yA=document.getElementById('yellow-a'),yB=document.getElementById('yellow-b');
+if(yA)yA.textContent=liveData.yA;
+if(yB)yB.textContent=liveData.yB;
+}
+
+function checkPenalties(goals,tA,tB){
+let sA=0,sB=0;
+goals.forEach(g=>{if(g.side==='a')sA++;else sB++;});
+if(sA!==sB) return null;
+const diff=(tA.str-tB.str)/100;
+const probA=Math.min(0.76,Math.max(0.24,0.5+diff*1.8));
+const pA=Math.random()<probA;
+const a=ri(3,5),b=ri(3,5);
+return{winner:pA?'a':'b',scoreA:pA?Math.max(a,b+1):Math.min(a,b>0?b-1:0),scoreB:pA?Math.min(b,a>0?a-1:0):Math.max(b,a+1)};
+}
+
+function endLiveMatch(){
+clearInterval(liveInterval);
+stopCrowd();
+
+const{tA,tB,goals,penalties,sA,sB,shotsA,shotsB,posA,yA,yB}=liveData;
+let finalSA=sA,finalSB=sB;
+let winner;
+
+if(penalties){
+finalSA=sA; finalSB=sB;
+winner=penalties.winner==='a'?tA:tB;
+addLiveEvent(90,'goal',`🎯 Tirs au but ! ${tA.abbr} ${penalties.scoreA} — ${penalties.scoreB} ${tB.abbr}. ${winner.flag} ${winner.name} se qualifie !`,'');
+} else {
+winner=finalSA>finalSB?tA:tB;
+}
+
+playWhistle('long');
+setTimeout(()=>{
+setCrowdIntensity(winner===tA?0.4:0.4);
+setTimeout(()=>stopCrowd(),2000);
+},400);
+
+addLiveEvent(90,'goal',`🏁 FIN DU MATCH ! ${winner.flag} ${winner.name} SE QUALIFIE !`,'');
+
+const result={
+teamA:tA,teamB:tB,sA:finalSA,sB:finalSB,winner,goals,penalties,
+stats:{posA,shotsA,shotsB,foulsA:ri(4,15),foulsB:ri(4,15),passA:ri(280,580),passB:ri(280,580)},
+commentary:liveData.loggedEvents,
+roundName:ROUND_NAMES[state.round]
+};
+
+state.roundMatches[liveData.pairIdx].result=result;
+state.allMatches.push({pairIdx:liveData.pairIdx,round:state.round,result});
+
+// Update skip button
+const skipBtn=document.getElementById('live-skip-btn');
+if(skipBtn) skipBtn.style.display='none';
+const closeBtn=document.getElementById('live-close-btn');
+if(closeBtn){closeBtn.style.display='inline-flex';closeBtn.textContent='📋 Voir le résumé →';}
+}
+
+function closeLiveMatch(){
+clearInterval(liveInterval);
+stopCrowd();
+document.getElementById('live-overlay').classList.remove('open');
+// Show summary if match is done
+if(liveData && state.roundMatches[liveData.pairIdx].result){
+const result=state.roundMatches[liveData.pairIdx].result;
+openSummaryData(result,()=>{renderBracket();renderScorers();},false);
+} else {
+renderBracket();renderScorers();
+}
+}
+
+function skipLiveMatch(){
+if(!liveData)return;
+clearInterval(liveInterval);
+// Process remaining events
+while(liveData.evIdx<liveData.events.length){
+processLiveEvent(liveData.events[liveData.evIdx]);
+liveData.evIdx++;
+}
+liveData.minute=90;
+updateLiveHUD();
+setTimeout(()=>endLiveMatch(),300);
+}
+
+function buildLiveScreen(){
+const overlay=document.getElementById('live-overlay');
+const{tA,tB}=liveData;
+overlay.innerHTML=`
+<div class="live-wrap">
+<div class="live-scoreboard">
+<div class="live-round-label">${ROUND_NAMES[state.round].toUpperCase()} — EN DIRECT</div>
+<div class="live-teams-row">
+<div class="live-team">
+<span class="live-flag" id="live-flag-a">${tA.flag}</span>
+<div class="live-tname">${tA.name}</div>
+<div class="live-tstr">Force ${tA.str}</div>
+</div>
+<div class="live-center">
+<div class="live-score-box">
+<div class="live-sa" id="live-sa">0</div>
+<div class="live-sep">:</div>
+<div class="live-sb" id="live-sb">0</div>
+</div>
+</div>
+<div class="live-team">
+<span class="live-flag" id="live-flag-b">${tB.flag}</span>
+<div class="live-tname">${tB.name}</div>
+<div class="live-tstr">Force ${tB.str}</div>
+</div>
+</div>
+<div class="live-minute-row">
+<div class="live-minute-badge" id="live-minute">0'</div>
+<div class="live-progress-bar"><div class="live-progress-fill" id="live-progress" style="width:0%"></div></div>
+<div class="live-half-badge" id="live-half">1ère MI-TEMPS</div>
+</div>
+<div class="live-poss-row">
+<div class="live-poss-val-a" id="poss-a">50%</div>
+<div style="flex:1;height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;display:flex;">
+<div class="live-poss-a" id="poss-bar-a" style="width:50%"></div>
+<div class="live-poss-b" id="poss-bar-b" style="width:50%"></div>
+</div>
+<div class="live-poss-val-b" id="poss-b">50%</div>
+</div>
+<div style="text-align:center;font-size:10px;color:var(--muted);margin-top:3px;letter-spacing:0.2em">POSSESSION</div>
+</div>
+
+<div class="live-stats-mini">
+<div class="lsm">
+<div class="lsm-label">TIRS</div>
+<div class="lsm-vals">
+<span class="lsm-a" id="shots-a">0</span>
+<div class="lsm-bar"><div class="lsm-bar-a" id="shots-bar-a" style="width:50%"></div><div class="lsm-bar-b" id="shots-bar-b" style="width:50%"></div></div>
+<span class="lsm-b" id="shots-b">0</span>
+</div>
+</div>
+<div class="lsm">
+<div class="lsm-label">JAUNES 🟨</div>
+<div class="lsm-vals">
+<span class="lsm-a" id="yellow-a">0</span>
+<div class="lsm-bar" style="background:rgba(255,215,0,0.1)"></div>
+<span class="lsm-b" id="yellow-b">0</span>
+</div>
+</div>
+<div class="lsm">
+<div class="lsm-label">SCORE MI-TEMPS</div>
+<div class="lsm-vals" style="justify-content:center;gap:4px;font-family:'Bebas Neue',sans-serif;font-size:18px;">
+<span style="color:var(--muted)" id="ht-mini">—</span>
+</div>
+</div>
+</div>
+
+<div class="events-panel">
+<div class="events-header">
+<span>📡 LIVE — ÉVÉNEMENTS DU MATCH</span>
+<div style="display:flex;align-items:center;gap:6px;"><div class="live-dot"></div><span>EN DIRECT</span></div>
+</div>
+<div class="events-log" id="events-log">
+<div class="event-line kick"><span class="ev-min">0'</span><span class="ev-text">🎙️ <strong>Coup d'envoi !</strong> Le match commence !</span></div>
+</div>
+</div>
+
+<div class="live-footer-btns">
+<button class="btn btn-ghost btn-sm" id="live-skip-btn" onclick="skipLiveMatch()">⏩ Passer à la fin</button>
+<button class="btn btn-gold btn-sm" id="live-close-btn" onclick="closeLiveMatch()" style="display:none">📋 Voir le résumé →</button>
+<button class="btn btn-red btn-sm" onclick="forceCloseLive()">✕ Quitter</button>
+</div>
+</div>`;
+}
+
+function forceCloseLive(){
+clearInterval(liveInterval);
+stopCrowd();
+document.getElementById('live-overlay').classList.remove('open');
+renderBracket();
+}
+
+// ══════════════════════════════════════════
+// QUICK SIMULATE (no live screen)
+// ══════════════════════════════════════════
+function simulateQuick(idx){
+const pair=state.roundMatches[idx];
+const tA=pair[0],tB=pair[1];
+const events=generateEvents(tA,tB);
+const goals=events.filter(e=>e.type==='goal');
+let sA=0,sB=0;
+goals.forEach(g=>{if(g.side==='a')sA++;else sB++;});
+const penalties=checkPenalties(goals,tA,tB);
+let winner=(sA>sB||(sA===sB&&penalties?.winner==='a'))?tA:tB;
+
+// Register scorers
+goals.forEach(g=>{
+const key=g.player+'_'+g.team.abbr;
+if(!state.scorers[key])state.scorers[key]={name:g.player,team:g.team.name,flag:g.team.flag,abbr:g.team.abbr,goals:0};
+state.scorers[key].goals++;
+});
+
+const result={
+teamA:tA,teamB:tB,sA,sB,winner,goals,penalties,
+stats:{posA:ri(35,65),shotsA:ri(3,16),shotsB:ri(3,16),foulsA:ri(4,15),foulsB:ri(4,15),passA:ri(280,580),passB:ri(280,580)},
+commentary:[],
+roundName:ROUND_NAMES[state.round]
+};
+
+pair.result=result;
+state.allMatches.push({pairIdx:idx,round:state.round,result});
+playWhistle('short');
+notify(`${winner.flag} ${winner.name} s'impose ${sA}-${sB} !`);
+renderBracket();renderScorers();
+}
+
+function simulateAll(){
+state.roundMatches.forEach((pair,i)=>{
+if(!pair.result) simulateQuick(i);
+});
+notify('⚡ Tous les matchs simulés !');
+}
+
+// ══════════════════════════════════════════
+// DRAW
+// ══════════════════════════════════════════
+function renderDraw(){
+document.getElementById('bracket-content').innerHTML=`
+<div class="phase-banner">
+<div><div class="phase-name">🎰 Tirage au Sort</div><div class="phase-info">Huitièmes de Finale — 16 équipes</div></div>
+<div class="phase-badge">ÉTAPE 1/4</div>
+</div>
+<div class="draw-stage">
+<div class="draw-ball" id="draw-ball">⚽</div>
+<div style="text-align:center">
+<p style="color:var(--muted);font-size:14px;margin-bottom:16px">Le tirage génère les 8 matchs des huitièmes</p>
+<button class="btn btn-gold" onclick="runDraw()">🎲 LANCER LE TIRAGE</button>
+</div>
+<div class="draw-pairs" id="draw-pairs-container"></div>
+</div>`;
+}
+
+async function runDraw(){
+playDraw();
+const ball=document.getElementById('draw-ball');
+const container=document.getElementById('draw-pairs-container');
+ball.classList.add('spinning');
+document.querySelector('.draw-stage button').disabled=true;
+container.innerHTML='';
+const shuffled=shuffle(TEAMS);
+const pairs=[];
+for(let i=0;i<16;i+=2) pairs.push([shuffled[i],shuffled[i+1]]);
+for(let i=0;i<8;i++){
+await new Promise(r=>setTimeout(r,150));
+const p=pairs[i];
+const div=document.createElement('div');div.className='draw-pair';
+div.innerHTML=`<div class="pair-num">MATCH ${i+1}</div>
+<div class="pair-a">${p[0].flag} ${p[0].name}</div>
+<div style="font-size:10px;color:var(--muted);margin:2px 0">vs</div>
+<div class="pair-b">${p[1].flag} ${p[1].name}</div>`;
+container.appendChild(div);
+}
+state.roundMatches=pairs.map(p=>{const m=[...p];m.result=null;return m;});
+ball.classList.remove('spinning');
+setTimeout(()=>{
+playWhistle('short');
+state.phase='bracket';
+renderBracket();
+notify('⚽ Tirage terminé ! Bonne chance à tous !');
+},900);
+}
+
+// ══════════════════════════════════════════
+// BRACKET
+// ══════════════════════════════════════════
+function renderBracket(){
+const allDone=state.roundMatches.every(m=>m.result!=null);
+const played=state.roundMatches.filter(m=>m.result!=null).length;
+const total=state.roundMatches.length;
+const rn=ROUND_NAMES[state.round];
+document.getElementById('bracket-content').innerHTML=`
+<div class="phase-banner">
+<div><div class="phase-name">${rn}</div><div class="phase-info">${played}/${total} matchs joués</div></div>
+<div class="phase-badge">TOUR ${state.round+1}/4</div>
+</div>
+<div class="status-bar">
+<div class="status-item"><span class="status-val">${total}</span><span class="status-lbl">MATCHS</span></div>
+<div class="status-item"><span class="status-val">${played}</span><span class="status-lbl">JOUÉS</span></div>
+<div class="status-item"><span class="status-val">${total-played}</span><span class="status-lbl">RESTANTS</span></div>
+<div class="status-item"><span class="status-val">${Object.values(state.scorers).reduce((a,s)=>a+s.goals,0)}</span><span class="status-lbl">BUTS</span></div>
+</div>
+<div class="matches-grid" id="matches-grid"></div>
+<div style="text-align:center;margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+${!allDone?`<button class="btn btn-ghost" onclick="simulateAll()">⚡ Simuler tous les restants</button>`:''}
+${allDone?`<button class="btn btn-gold" onclick="goToResults()">🏅 Voir les qualifiés →</button>`:''}
+</div>`;
+
+const grid=document.getElementById('matches-grid');
+state.roundMatches.forEach((pair,i)=>{
+const res=pair.result;
+const done=res!=null;
+const winA=done&&res.winner===pair[0];
+const winB=done&&res.winner===pair[1];
+const card=document.createElement('div');
+card.className='match-card'+(done?' played':'');
+card.innerHTML=`
+<div class="mc-header"><span>${rn.toUpperCase()}</span><span>MATCH ${i+1}</span></div>
+<div class="mc-team ${done?(winA?'winner':'loser'):''}">
+<span class="mc-flag">${pair[0].flag}</span>
+<span class="mc-name">${pair[0].name}</span>
+<span class="mc-str">${pair[0].str}</span>
+<span class="mc-score sc-a">${done?res.sA:''}</span>
+</div>
+<div class="mc-team ${done?(winB?'winner':'loser'):''}">
+<span class="mc-flag">${pair[1].flag}</span>
+<span class="mc-name">${pair[1].name}</span>
+<span class="mc-str">${pair[1].str}</span>
+<span class="mc-score sc-b">${done?res.sB:''}</span>
+</div>
+<div class="mc-footer">
+${done
+?`<button class="mc-btn" style="color:var(--muted)" onclick="openSummaryByPair(${i})">📋 Résumé</button>`
+:`<button class="mc-btn" onclick="playMatchLive(${i})">▶ JOUER EN DIRECT</button>
+<button class="mc-btn" onclick="simulateQuick(${i})">⚡ Simuler</button>`}
+</div>`;
+grid.appendChild(card);
+});
+}
+
+function openSummaryByPair(i){
+const entry=state.allMatches.slice().reverse().find(e=>e.pairIdx===i&&e.round===state.round);
+if(entry) openSummaryData(entry.result,null,true);
+}
+
+// ══════════════════════════════════════════
+// RESULTS
+// ══════════════════════════════════════════
+function goToResults(){
+const winners=state.roundMatches.map(m=>m.result.winner);
+if(winners.length===1){showChampion(winners[0]);return;}
+const nextRound=ROUND_NAMES[state.round+1]||'';
+document.getElementById('bracket-content').innerHTML=`
+<div class="phase-banner">
+<div><div class="phase-name">🏅 Qualifiés — ${ROUND_NAMES[state.round]}</div></div>
+<div class="phase-badge">${winners.length} ÉQUIPES</div>
+</div>
+<div class="qualif-grid">
+${winners.map((t,i)=>`<div class="qualif-card" style="animation-delay:${i*0.06}s">
+<span class="qc-flag">${t.flag}</span><div class="qc-name">${t.name}</div>
+</div>`).join('')}
+</div>
+<div style="text-align:center">
+<p style="color:var(--muted);font-size:13px;margin-bottom:13px">Prochain : <strong style="color:var(--gold)">${nextRound}</strong></p>
+<button class="btn btn-gold" onclick="advanceRound()">⚽ LANCER LES ${nextRound.toUpperCase()}</button>
+</div>`;
+playWin();
+}
+
+function advanceRound(){
+state.round++;
+const winners=state.roundMatches.map(m=>m.result.winner);
+const shuffled=shuffle(winners);
+state.roundMatches=[];
+for(let i=0;i<shuffled.length;i+=2){
+const pair=[shuffled[i],shuffled[i+1]];pair.result=null;
+state.roundMatches.push(pair);
+}
+playDraw();
+renderBracket();
+}
+
+// ══════════════════════════════════════════
+// SUMMARY
+// ══════════════════════════════════════════
+function openSummaryData(result,onClose=null,readOnly=false){
+const{teamA,teamB,sA,sB,winner,goals,penalties,stats,roundName}=result;
+const overlay=document.getElementById('summary-overlay');
+
+const tl=goals.length===0
+?`<p style="color:var(--muted);font-size:13px;padding:6px 0">Aucun but (0-0)</p>`
+:goals.map(g=>`<div class="tl-item ${g.side}-side">
+<div class="tl-min">${g.min}'</div>
+<div style="font-size:14px">⚽</div>
+<div><div class="tl-scorer">${g.player}</div><div class="tl-team">${g.team.flag} ${g.team.name}</div></div>
+</div>`).join('');
+
+const lineupHTML=(team,side)=>{
+const s=team.squad;
+const gscorers=goals.filter(g=>g.side===side).map(g=>g.player);
+const isWinner=winner===team;
+// Generate ratings: winner avg higher, scorers get boost
+const baseAvg=isWinner ? ri(64,75) : ri(54,65);
+const mkP=(lbl,pl)=>{
+if(!pl||!pl.length) return '';
+return `<div class="lineup-pos">${lbl}</div>${pl.map(p=>{
+let note=baseAvg+ri(-8,10);
+if(gscorers.includes(p)) note=Math.min(99,note+ri(12,20));
+note=Math.max(40,Math.min(99,note));
+const noteColor=note>=80?'#00d46a':note>=70?'#FFD700':note>=60?'#ff9900':'#ff3b5c';
+const isScorer=gscorers.includes(p);
+return `<div class="lineup-player ${isScorer?'scorer':''}">
+<span>${isScorer?'⚽ ':''}${p}</span>
+<span class="player-note" style="background:${noteColor}22;color:${noteColor};border:1px solid ${noteColor}44">${note}</span>
+</div>`;
+}).join('')}`;
+};
+return mkP('GK',s.GK)+mkP('DEF',s.DEF)+mkP('MIL',s.MID)+mkP('ATT',s.ATT);
+};
+
+const mkBar=(vA,vB,label,unit='')=>{
+const tot=vA+vB||1;
+let pA=Math.round(vA/tot*100);
+let pB=100-pA; // always sum to 100
+const dispA=unit==='%'?pA:vA;
+const dispB=unit==='%'?pB:vB;
+return `<div class="stats-row">
+<div class="stat-val" style="color:var(--gold)">${dispA}${unit}</div>
+<div class="stat-bar-wrap" style="transform:scaleX(-1)"><div class="stat-bar-inner" style="width:${pA}%;background:linear-gradient(90deg,var(--gold),#c9960a)"></div></div>
+<div class="stat-label">${label}</div>
+<div class="stat-bar-wrap"><div class="stat-bar-inner" style="width:${pB}%;background:linear-gradient(90deg,var(--blue),#0a5ac9)"></div></div>
+<div class="stat-val" style="color:var(--blue)">${dispB}${unit}</div>
+</div>`;
+};
+
+const penHTML=penalties?`<div class="pen-tag">🎯 Tirs au but : ${teamA.abbr} ${penalties.scoreA} — ${penalties.scoreB} ${teamB.abbr}</div>`:'';
+
+overlay.innerHTML=`
+<div class="summary-panel">
+<div class="sp-hero">
+<div class="sp-round">${roundName.toUpperCase()}</div>
+<div class="sp-teams-grid">
+<div class="sp-team"><span class="sp-flag">${teamA.flag}</span><div class="sp-name">${teamA.name}</div></div>
+<div class="sp-score-box"><div class="sp-sa">${sA}</div><div class="sp-sep">:</div><div class="sp-sb">${sB}</div></div>
+<div class="sp-team"><span class="sp-flag">${teamB.flag}</span><div class="sp-name">${teamB.name}</div></div>
+</div>
+${penHTML}
+<div class="sp-winner-tag">🏅 VAINQUEUR : ${winner.flag} ${winner.name}</div>
+</div>
+<div class="sp-body">
+<div class="sp-stitle">👕 Compositions</div>
+<div class="lineup-grid">
+<div class="lineup-col"><div class="lineup-header" style="color:var(--gold)">${teamA.flag} ${teamA.name}</div>${lineupHTML(teamA,'a')}</div>
+<div class="lineup-col"><div class="lineup-header" style="color:var(--blue)">${teamB.flag} ${teamB.name}</div>${lineupHTML(teamB,'b')}</div>
+</div>
+<div class="sp-stitle">⚽ Buts</div>
+<div class="timeline">${tl}</div>
+<div class="sp-stitle">📊 Statistiques</div>
+${mkBar(stats.posA,100-stats.posA,'Possession','%')}
+${mkBar(stats.shotsA,stats.shotsB,'Tirs')}
+${mkBar(stats.passA,stats.passB,'Passes')}
+${mkBar(stats.foulsA,stats.foulsB,'Fautes')}
+</div>
+<div class="sp-footer">
+<button class="btn btn-ghost btn-sm" onclick="closeSummary()">✕ Fermer</button>
+${!readOnly?`<button class="btn btn-gold btn-sm" onclick="closeSummary(true)">Continuer →</button>`:''}
+</div>
+</div>`;
+overlay.classList.add('open');
+overlay._onClose=onClose;
+}
+
+function closeSummary(cont=false){
+document.getElementById('summary-overlay').classList.remove('open');
+const cb=document.getElementById('summary-overlay')._onClose;
+if(cont&&cb) cb();
+}
+
+// ══════════════════════════════════════════
+// SCORERS
+// ══════════════════════════════════════════
+function renderScorers(){
+const tab=document.getElementById('scorers-content');
+const list=Object.values(state.scorers).sort((a,b)=>b.goals-a.goals);
+if(!list.length){tab.innerHTML=`<div style="text-align:center;padding:40px;color:var(--muted)">📊 Aucun but encore</div>`;return;}
+const max=list[0].goals;
+tab.innerHTML=list.slice(0,25).map((s,i)=>`
+<div class="scorer-row">
+<div class="scorer-rank rank-${Math.min(i+1,4)}">${i+1}</div>
+<div style="font-size:19px">${s.flag}</div>
+<div class="scorer-info"><div class="scorer-name">${s.name}</div><div class="scorer-team">${s.team}</div></div>
+<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+<div class="scorer-goals">${s.goals} <small>but${s.goals>1?'s':''}</small></div>
+<div class="scorer-bar-wrap"><div class="scorer-bar-fill" style="width:${Math.round(s.goals/max*100)}%"></div></div>
+</div>
+</div>`).join('');
+}
+
+// ══════════════════════════════════════════
+// HISTORY
+// ══════════════════════════════════════════
+function renderHistory(){
+const c=document.getElementById('history-content');
+if(!state.allMatches.length){c.innerHTML=`<div style="text-align:center;padding:40px;color:var(--muted)">📋 Aucun match joué</div>`;return;}
+const byRound={};
+state.allMatches.forEach(e=>{const rn=e.result.roundName;if(!byRound[rn])byRound[rn]=[];byRound[rn].push(e);});
+c.innerHTML=Object.entries(byRound).map(([rn,entries])=>`
+<div class="section-title" style="margin-bottom:10px">${rn}</div>
+${entries.map(e=>{
+const{teamA,teamB,sA,sB,winner}=e.result;
+const wA=winner===teamA;
+return `<div class="hist-match" onclick="openHistSummary(${state.allMatches.indexOf(e)})">
+<div style="flex:1">
+<span style="font-weight:700;color:${wA?'var(--gold)':'var(--muted)'}">${teamA.flag} ${teamA.name}</span>
+<span style="font-family:'Bebas Neue',sans-serif;font-size:20px;margin:0 10px"><span class="sc-a">${sA}</span> — <span class="sc-b">${sB}</span></span>
+<span style="font-weight:700;color:${!wA?'var(--blue)':'var(--muted)'}">${teamB.flag} ${teamB.name}</span>
+</div>
+<span style="font-size:11px;color:var(--muted)">📋</span>
+</div>`;
+}).join('')}
+<div style="margin-bottom:18px"></div>`).join('');
+}
+
+function openHistSummary(idx){
+const e=state.allMatches[idx];
+if(e) openSummaryData(e.result,null,true);
+}
+
+// ══════════════════════════════════════════
+// CHAMPION
+// ══════════════════════════════════════════
+function showChampion(team){
+state.champion=team;
+playChampion();
+for(let i=0;i<7;i++) setTimeout(()=>spawnConfetti(50),i*500);
+document.getElementById('bracket-content').innerHTML=`
+<div class="champ-screen">
+<div class="champ-suptitle">🎉 CHAMPION DU MONDE 2025 🎉</div>
+<span class="champ-trophy">🏆</span>
+<span class="champ-flag">${team.flag}</span>
+<div class="champ-name">${team.name}</div>
+<div class="champ-tag">EST CHAMPION DU MONDE !</div>
+<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+<button class="btn btn-gold" onclick="switchTab('scorers')">⚽ Buteurs</button>
+<button class="btn btn-ghost" onclick="switchTab('history')">📋 Matchs</button>
+<button class="btn btn-red" onclick="restartGame()">🔄 Nouveau tournoi</button>
+</div>
+</div>`;
+}
+
+function restartGame(){
+state={phase:'draw',round:0,roundMatches:[],allMatches:[],scorers:{},champion:null};
+liveData=null;
+renderDraw();renderScorers();renderHistory();
+switchTab('bracket');
+}
+
+// INIT
+renderDraw();
+renderScorers();
+</script>
+
+</body>
+</html>
