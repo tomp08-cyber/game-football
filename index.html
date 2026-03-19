@@ -571,6 +571,7 @@ white-space:nowrap;
 <button class="tab" onclick="switchTab('standings')">📊 Classement</button>
 <button class="tab" onclick="switchTab('history')">📋 Matchs</button>
 <button class="tab" onclick="switchTab('players')">👤 Joueurs</button>
+<button class="tab" onclick="switchTab('pub')" style="background:linear-gradient(135deg,rgba(0,149,246,0.3),rgba(0,149,246,0.1));color:#0095f6;font-weight:800;border:1px solid rgba(0,149,246,0.4);">📲 Foot Inside</button>
 </div>
 
 <div class="tab-panel active" id="tab-bracket"><div id="bracket-content"></div></div>
@@ -578,6 +579,7 @@ white-space:nowrap;
 <div class="tab-panel" id="tab-standings"><div class="section-title">📊 Classement des Équipes</div><div id="standings-content"></div></div>
 <div class="tab-panel" id="tab-history"><div class="section-title">📋 Résumés des Matchs</div><div id="history-content"></div></div>
 <div class="tab-panel" id="tab-players"><div class="section-title">👤 Fiches Joueurs</div><div id="players-content"></div></div>
+<div class="tab-panel" id="tab-pub"></div>
 </div>
 
 <script>
@@ -757,13 +759,14 @@ w.appendChild(el);setTimeout(()=>el.remove(),3800);
 }
 
 function switchTab(tab){
-['bracket','scorers','history','players'].forEach((t,i)=>{
-document.querySelectorAll('.tab')[i].classList.toggle('active',t===tab);
-document.querySelectorAll('.tab-panel')[i].classList.toggle('active',t===tab);
+['bracket','scorers','history','players','pub'].forEach((t,i)=>{
+document.querySelectorAll('.tab')[i]?.classList.toggle('active',t===tab);
+document.querySelectorAll('.tab-panel')[i]?.classList.toggle('active',t===tab);
 });
 if(tab==='scorers')renderScorers();
 if(tab==='history')renderHistory();
 if(tab==='players')renderPlayers();
+if(tab==='pub')renderPub();
 playClick();
 }
 
@@ -2386,14 +2389,15 @@ return `<div class="podium-step">
 // PATCH: switchTab with new standings tab
 // ══════════════════════════════════════════
 function switchTab(tab){
-['bracket','scorers','standings','history','players'].forEach((t,i)=>{
-document.querySelectorAll('.tab')[i].classList.toggle('active',t===tab);
-document.querySelectorAll('.tab-panel')[i].classList.toggle('active',t===tab);
+['bracket','scorers','standings','history','players','pub'].forEach((t,i)=>{
+document.querySelectorAll('.tab')[i]?.classList.toggle('active',t===tab);
+document.querySelectorAll('.tab-panel')[i]?.classList.toggle('active',t===tab);
 });
 if(tab==='scorers')renderScorers();
 if(tab==='standings')renderStandings();
 if(tab==='history')renderHistory();
 if(tab==='players')renderPlayers();
+if(tab==='pub')renderPub();
 playClick();
 }
 
@@ -2440,8 +2444,104 @@ const champText=isMyTeam?'Bravo champion ! Vous avez remporté la Coupe du Monde
 setTimeout(()=>{updateAIBox(champText);speak(champText);},1000);
 }
 
+// ══════════════════════════════════════════
+// FOOT INSIDE — PAGE PUB
+// ══════════════════════════════════════════
+function renderPub(){
+const c=document.getElementById('tab-pub');
+c.innerHTML=`
+<div style="max-width:500px;margin:0 auto;padding:4px 0 40px;">
+
+<!-- LOGO / HEADER -->
+<div style="text-align:center;padding:28px 20px 20px;background:linear-gradient(180deg,rgba(0,149,246,0.12),transparent);border-radius:16px;margin-bottom:20px;border:1px solid rgba(0,149,246,0.15);position:relative;overflow:hidden;">
+<div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#0095f6,transparent)"></div>
+<!-- Logo cercle bleu -->
+<div style="width:90px;height:90px;background:linear-gradient(135deg,#0063d1,#0095f6);border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 40px rgba(0,149,246,0.5);animation:trophyFloat 3s ease-in-out infinite;">
+<div style="text-align:center;line-height:1;">
+<div style="font-family:'Bebas Neue',sans-serif;font-size:14px;color:#fff;letter-spacing:0.1em;">FOOT</div>
+<div style="font-family:'Bebas Neue',sans-serif;font-size:14px;color:#fff;letter-spacing:0.1em;">INSIDE</div>
+<div style="font-size:9px;color:rgba(255,255,255,0.6);letter-spacing:0.1em;">MEDIA FOOT</div>
+</div>
+</div>
+<div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:0.1em;color:#fff;margin-bottom:2px;">Foot Inside</div>
+<div style="font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:14px;">@footinside60</div>
+<!-- Stats -->
+<div style="display:flex;justify-content:center;gap:24px;margin-bottom:16px;">
+<div style="text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:#fff">287</div><div style="font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:0.1em">FOLLOWERS</div></div>
+<div style="width:1px;background:rgba(255,255,255,0.08)"></div>
+<div style="text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:#fff">4768</div><div style="font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:0.1em">J'AIME</div></div>
+<div style="width:1px;background:rgba(255,255,255,0.08)"></div>
+<div style="text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:#fff">4</div><div style="font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:0.1em">SUIVIS</div></div>
+</div>
+<div style="font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:18px;letter-spacing:0.05em;">⚽ ACTU SUR LE FOOTBALL</div>
+<!-- CTA Button -->
+<a href="https://www.tiktok.com/@footinside60" target="_blank" style="display:inline-block;background:linear-gradient(135deg,#0095f6,#0063d1);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:0.2em;padding:12px 36px;border-radius:8px;text-decoration:none;box-shadow:0 4px 20px rgba(0,149,246,0.4);transition:all 0.3s;"
+onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 30px rgba(0,149,246,0.6)'"
+onmouseout="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(0,149,246,0.4)'">
+📲 SUIVRE SUR TIKTOK
+</a>
+</div>
+
+<!-- CONTENU -->
+<div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:16px;">
+<div style="font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:0.2em;color:#0095f6;margin-bottom:14px;">📣 CE QU'ON COUVRE</div>
+${[
+['🏆','Résultats & Scores','Tous les matchs en temps réel — Ligue 1, Champions League, Liga, Premier League...'],
+['💬','Débats Football','Les sujets qui font polémique : transferts, performances, choix des coachs'],
+['📰','Infos & Mercato','Rumeurs, officiels, conférences de presse — on filtre le vrai du faux'],
+['🌍','Équipes Nationales','France, Brésil, Portugal, Argentine... tout l\'actu des sélections'],
+['⭐','Grands Clubs','Real Madrid, PSG, OM, Barça, City — analyses et coulisses'],
+].map(([icon,titre,desc])=>`
+<div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+<div style="font-size:22px;flex-shrink:0">${icon}</div>
+<div><div style="font-size:14px;font-weight:700;margin-bottom:2px;">${titre}</div><div style="font-size:12px;color:var(--muted);line-height:1.5">${desc}</div></div>
+</div>`).join('')}
+<div style="padding-top:12px;text-align:center">
+<div style="font-size:11px;color:rgba(255,255,255,0.3);letter-spacing:0.15em">REJOINS LA COMMUNAUTÉ</div>
+</div>
+</div>
+
+<!-- DERNIERS POSTS (simulés) -->
+<div style="font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:0.2em;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+📱 DERNIERS POSTS
+<span style="flex:1;height:1px;background:linear-gradient(90deg,rgba(255,215,0,0.3),transparent)"></span>
+</div>
+${[
+{icon:'⚽',label:'RÉSULTAT',color:'#0095f6',title:'OM 3 - 2 OL',sub:'VAMOSSS ! Marseille s\'impose dans le derby 🔥'},
+{icon:'🏆',label:'LDC',color:'#FFD700',title:'8èmes de Finale LDC',sub:'Les résultats complets des huitièmes de finale'},
+{icon:'🌍',label:'COUPE DU MONDE',color:'#00d46a',title:'Le Onze du Portugal',sub:'La composition officielle pour la Coupe du Monde 💀'},
+{icon:'💬',label:'DÉBAT',color:'#ff9500',title:'La fin de Longoria ?',sub:'Selon Romain Molina, il veux garder Benatia et souhaite...'},
+{icon:'📰',label:'OFFICIEL',color:'#ff3b5c',title:'Benatia quitte l\'OM',sub:'Medhi Benatia quitte l\'Olympique de Marseille'},
+].map((p,i)=>`
+<div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:13px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;animation:pairIn 0.4s ease-out ${i*0.08}s both;cursor:pointer;transition:all 0.2s"
+onmouseover="this.style.borderColor='rgba(0,149,246,0.3)';this.style.transform='translateX(4px)'"
+onmouseout="this.style.borderColor='rgba(255,255,255,0.06)';this.style.transform=''">
+<div style="width:42px;height:42px;border-radius:8px;background:${p.color}22;border:1px solid ${p.color}44;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">${p.icon}</div>
+<div style="flex:1;min-width:0">
+<div style="font-size:9px;letter-spacing:0.2em;color:${p.color};margin-bottom:2px">${p.label}</div>
+<div style="font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.title}</div>
+<div style="font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.sub}</div>
+</div>
+<div style="font-size:18px;color:rgba(255,255,255,0.2)">›</div>
+</div>`).join('')}
+
+<!-- CTA FINAL -->
+<div style="background:linear-gradient(135deg,rgba(0,149,246,0.12),rgba(0,99,209,0.08));border:1px solid rgba(0,149,246,0.2);border-radius:12px;padding:20px;text-align:center;margin-top:8px;">
+<div style="font-size:28px;margin-bottom:8px;">📲</div>
+<div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:0.1em;color:#fff;margin-bottom:4px;">T'as aimé ce tournoi ?</div>
+<div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:16px;">Suis <strong style="color:#0095f6">@footinside60</strong> pour toute l'actu foot au quotidien !</div>
+<a href="https://www.tiktok.com/@footinside60" target="_blank"
+style="display:inline-block;background:linear-gradient(135deg,#0095f6,#0063d1);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:0.2em;padding:11px 32px;border-radius:8px;text-decoration:none;box-shadow:0 4px 20px rgba(0,149,246,0.35);">
+🔔 SUIVRE MAINTENANT
+</a>
+</div>
+
+</div>`;
+}
+
 // INIT
 renderMenu();
 </script>
 
 </body>
+</html>
