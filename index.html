@@ -361,7 +361,87 @@ LIVE MATCH
 .mro-score{font-family:‘Bebas Neue’,sans-serif;font-size:52px;margin-bottom:8px;}
 .mro-detail{font-size:13px;color:var(–muted);margin-bottom:20px;}
 
-/* ══ PITCH MAP ══ */
+/* ══ WEATHER ══ */
+.weather-badge{position:absolute;top:8px;right:10px;font-size:11px;letter-spacing:0.15em;color:rgba(255,255,255,0.5);display:flex;align-items:center;gap:4px;z-index:10;}
+.rain-layer{position:absolute;inset:0;pointer-events:none;z-index:3;overflow:hidden;}
+.raindrop{position:absolute;width:1px;background:linear-gradient(180deg,transparent,rgba(150,200,255,0.4));animation:rainFall linear infinite;}
+@keyframes rainFall{from{transform:translateY(-20px);}to{transform:translateY(130px);}}
+.night-overlay{position:absolute;inset:0;background:rgba(0,0,20,0.45);pointer-events:none;z-index:2;}
+.fog-overlay{position:absolute;inset:0;background:rgba(200,200,200,0.12);pointer-events:none;z-index:2;}
+.pitch-map.wet .pitch-map-grass{filter:saturate(1.3) brightness(0.85);}
+
+/* ══ AI COMMENTARY ══ */
+.ai-commentary-box{
+background:linear-gradient(135deg,rgba(155,89,255,0.1),rgba(26,140,255,0.06));
+border:1px solid rgba(155,89,255,0.25);border-radius:10px;
+padding:10px 14px;margin-bottom:10px;position:relative;overflow:hidden;
+}
+.ai-commentary-box::before{content:’’;position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(–purple),transparent);}
+.ai-header{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:10px;letter-spacing:0.25em;color:var(–purple);}
+.ai-speaking-dot{width:8px;height:8px;border-radius:50%;background:var(–purple);animation:aiPulse 0.6s ease-in-out infinite alternate;}
+@keyframes aiPulse{from{opacity:1;transform:scale(1);}to{opacity:0.3;transform:scale(0.7);}}
+.ai-text{font-size:13px;line-height:1.6;color:rgba(255,255,255,0.85);min-height:40px;}
+.ai-text.typing::after{content:‘▋’;animation:blink 0.7s step-end infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+
+/* ══ REPLAY ══ */
+.replay-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:970;display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px;}
+.replay-overlay.show{display:flex;}
+.replay-title{font-family:‘Bebas Neue’,sans-serif;font-size:28px;letter-spacing:0.3em;color:var(–gold);animation:fadeUp 0.4s ease-out;}
+.replay-pitch{position:relative;width:min(500px,92vw);height:140px;background:linear-gradient(180deg,#1a5c1a,#1e6e1e,#1a5c1a);border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);}
+.replay-pitch svg{position:absolute;inset:0;width:100%;height:100%;}
+.replay-ball{position:absolute;width:16px;height:16px;background:radial-gradient(circle at 35% 35%,#fff,#ccc);border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 2px 10px rgba(0,0,0,0.7);transition:none;z-index:5;}
+.replay-trail{position:absolute;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;animation:trailFade 0.8s ease-out forwards;}
+@keyframes trailFade{from{opacity:0.6;transform:translate(-50%,-50%) scale(1);}to{opacity:0;transform:translate(-50%,-50%) scale(0.2);}}
+.replay-scorer-info{text-align:center;animation:fadeUp 0.5s ease-out 0.3s both;}
+.replay-scorer-name{font-family:‘Bebas Neue’,sans-serif;font-size:32px;letter-spacing:0.1em;color:#fff;}
+.replay-scorer-team{font-size:13px;letter-spacing:0.3em;color:var(–muted);}
+
+/* ══ MOTM ══ */
+.motm-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:980;display:none;align-items:center;justify-content:center;}
+.motm-overlay.show{display:flex;}
+.motm-box{background:linear-gradient(135deg,rgba(255,215,0,0.1),rgba(255,149,0,0.06));border:1px solid rgba(255,215,0,0.3);border-radius:16px;padding:32px 28px;text-align:center;max-width:360px;width:90%;animation:panelIn 0.6s cubic-bezier(0.34,1.56,0.64,1);}
+.motm-trophy{font-size:56px;display:block;margin-bottom:12px;animation:trophyWin 0.7s cubic-bezier(0.34,1.56,0.64,1) 0.2s both;}
+.motm-label{font-size:10px;letter-spacing:0.5em;color:var(–muted);margin-bottom:8px;}
+.motm-flag{font-size:44px;display:block;margin-bottom:6px;animation:fadeUp 0.4s ease-out 0.5s both;}
+.motm-name{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(28px,6vw,42px);letter-spacing:0.1em;color:var(–gold);text-shadow:0 0 40px rgba(255,215,0,0.6);animation:fadeUp 0.4s ease-out 0.6s both;}
+.motm-note{font-family:‘Bebas Neue’,sans-serif;font-size:52px;color:var(–green);text-shadow:0 0 30px rgba(0,212,106,0.6);animation:fadeUp 0.4s ease-out 0.7s both;line-height:1;}
+.motm-note-label{font-size:11px;letter-spacing:0.3em;color:var(–muted);margin-bottom:16px;}
+.motm-stat{font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:4px;}
+
+/* ══ PODIUM ══ */
+.podium-wrap{display:flex;align-items:flex-end;justify-content:center;gap:12px;margin:20px 0 30px;}
+.podium-step{text-align:center;flex:1;max-width:160px;}
+.podium-team-box{border-radius:8px 8px 0 0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:16px 10px 12px;position:relative;overflow:hidden;}
+.podium-team-box::before{content:’’;position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,0.05),transparent);pointer-events:none;}
+.podium-1{background:linear-gradient(180deg,rgba(255,215,0,0.2),rgba(255,215,0,0.05));border:1px solid rgba(255,215,0,0.35);height:130px;}
+.podium-2{background:linear-gradient(180deg,rgba(176,190,197,0.15),rgba(176,190,197,0.03));border:1px solid rgba(176,190,197,0.25);height:100px;}
+.podium-3{background:linear-gradient(180deg,rgba(205,127,50,0.15),rgba(205,127,50,0.03));border:1px solid rgba(205,127,50,0.25);height:76px;}
+.podium-medal{font-size:22px;margin-bottom:4px;}
+.podium-flag{font-size:28px;margin-bottom:4px;}
+.podium-name{font-size:11px;font-weight:700;letter-spacing:0.04em;}
+.podium-base{background:rgba(255,255,255,0.04);border:1px solid var(–border);border-top:none;padding:6px;font-family:‘Bebas Neue’,sans-serif;font-size:18px;letter-spacing:0.1em;}
+.podium-base-1{color:var(–gold);}
+.podium-base-2{color:#b0bec5;}
+.podium-base-3{color:#cd7f32;}
+
+/* ══ STANDINGS ══ */
+.standings-table{width:100%;border-collapse:collapse;}
+.standings-table th{font-size:10px;letter-spacing:0.2em;color:var(–muted);padding:8px 10px;text-align:left;border-bottom:1px solid var(–border);}
+.standings-table td{padding:9px 10px;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.03);}
+.standings-table tr:hover td{background:rgba(255,255,255,0.03);}
+.st-rank{font-family:‘Bebas Neue’,sans-serif;font-size:18px;width:28px;text-align:center;}
+.st-team{display:flex;align-items:center;gap:8px;font-weight:600;}
+.st-num{font-family:‘Bebas Neue’,sans-serif;font-size:16px;text-align:center;}
+.st-bar{width:60px;height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;display:inline-block;vertical-align:middle;margin-left:4px;}
+.st-bar-fill{height:100%;background:linear-gradient(90deg,var(–green),var(–gold));border-radius:2px;}
+
+/* ══ HYMN ══ */
+.hymn-banner{position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:975;display:none;align-items:center;justify-content:center;flex-direction:column;gap:8px;}
+.hymn-banner.show{display:flex;}
+.hymn-flag{font-size:72px;animation:trophyWin 0.5s cubic-bezier(0.34,1.56,0.64,1);}
+.hymn-text{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(20px,4vw,32px);letter-spacing:0.15em;color:#fff;animation:fadeUp 0.4s ease-out 0.3s both;}
+.hymn-sub{font-size:12px;letter-spacing:0.4em;color:var(–muted);animation:fadeUp 0.4s ease-out 0.5s both;}
 .pitch-map{
 position:relative;width:100%;height:110px;
 background:linear-gradient(180deg,#1a5c1a 0%,#1e6e1e 25%,#1a5c1a 50%,#1e6e1e 75%,#1a5c1a 100%);
@@ -438,6 +518,43 @@ white-space:nowrap;
 <div class="live-overlay" id="live-overlay">
 <div class="live-pitch-bg"></div>
 </div>
+<div class="replay-overlay" id="replay-overlay">
+<div class="replay-title">🎬 REPLAY DU BUT !</div>
+<div class="replay-pitch" id="replay-pitch">
+<svg viewBox="0 0 400 140" preserveAspectRatio="none">
+<line x1="200" y1="0" x2="200" y2="140" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+<circle cx="200" cy="70" r="32" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+<rect x="2" y="2" width="396" height="136" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+<rect x="2" y="30" width="68" height="80" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+<rect x="330" y="30" width="68" height="80" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+<rect x="2" y="52" width="26" height="36" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+<rect x="372" y="52" width="26" height="36" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+</svg>
+<div class="replay-ball" id="replay-ball" style="left:50%;top:50%"></div>
+</div>
+<div class="replay-scorer-info">
+<div class="replay-scorer-name" id="replay-scorer-name"></div>
+<div class="replay-scorer-team" id="replay-scorer-team"></div>
+</div>
+<button class="btn btn-ghost btn-sm" onclick="closeReplay()">✕ Fermer</button>
+</div>
+<div class="motm-overlay" id="motm-overlay">
+<div class="motm-box">
+<span class="motm-trophy">🌟</span>
+<div class="motm-label">HOMME DU MATCH</div>
+<span class="motm-flag" id="motm-flag"></span>
+<div class="motm-name" id="motm-name"></div>
+<div class="motm-note" id="motm-note"></div>
+<div class="motm-note-label">NOTE</div>
+<div class="motm-stat" id="motm-stat"></div>
+<button class="btn btn-gold btn-sm" style="margin-top:14px" onclick="closeMOTM()">Continuer →</button>
+</div>
+</div>
+<div class="hymn-banner" id="hymn-banner">
+<div class="hymn-flag" id="hymn-flag"></div>
+<div class="hymn-text" id="hymn-text"></div>
+<div class="hymn-sub">HYMNE DE L'ÉQUIPE</div>
+</div>
 <div class="summary-overlay" id="summary-overlay"></div>
 <div class="profile-overlay" id="profile-overlay"></div>
 <div class="manager-result-overlay" id="mro-overlay"></div>
@@ -451,12 +568,14 @@ white-space:nowrap;
 <div class="tabs">
 <button class="tab active" onclick="switchTab('bracket')">🏆 Tournoi</button>
 <button class="tab" onclick="switchTab('scorers')">⚽ Buteurs</button>
+<button class="tab" onclick="switchTab('standings')">📊 Classement</button>
 <button class="tab" onclick="switchTab('history')">📋 Matchs</button>
 <button class="tab" onclick="switchTab('players')">👤 Joueurs</button>
 </div>
 
 <div class="tab-panel active" id="tab-bracket"><div id="bracket-content"></div></div>
 <div class="tab-panel" id="tab-scorers"><div class="section-title">⚽ Classement des Buteurs</div><div id="scorers-content" class="scorers-list"></div></div>
+<div class="tab-panel" id="tab-standings"><div class="section-title">📊 Classement des Équipes</div><div id="standings-content"></div></div>
 <div class="tab-panel" id="tab-history"><div class="section-title">📋 Résumés des Matchs</div><div id="history-content"></div></div>
 <div class="tab-panel" id="tab-players"><div class="section-title">👤 Fiches Joueurs</div><div id="players-content"></div></div>
 </div>
@@ -505,22 +624,22 @@ function playClick(){tone(600,'sine',0.06,0.1);}
 // TEAMS
 // ══════════════════════════════════════════
 const TEAMS=[
-{name:"Real Madrid", abbr:"RMA",flag:"🇪🇸",str:93, squad:{GK:["Courtois"],DEF:["Garcia","Huijsen","Rüdiger","Alexander-Arnold"],MID:["Arda Güler","Tchouaméni","Mbappé","Valverde"],ATT:["Vinícius Junior","Brahim Díaz"]}},
-{name:"Manchester City", abbr:"MCI",flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",str:92, squad:{GK:["Donnarumma"],DEF:["Nunes","Khusanov","Rúben Dias","Aït-Nouri"],MID:["Bernardo Silva","Rodri","Cherki","Reijnders","Doku"],ATT:["Haaland"]}},
-{name:"FC Barcelone", abbr:"FCB",flag:"🇪🇸",str:90, squad:{GK:["Garcia"],DEF:["Eric García","Cubarsí","Martin","Cancelo"],MID:["Marc Bernal","Pedri","Lamine Yamal","Fermín López","Raphinha"],ATT:["Lewandowski"]}},
-{name:"PSG", abbr:"PSG",flag:"🇫🇷",str:89, squad:{GK:["Safonov"],DEF:["Hakimi","Marquinhos","Pacho","Nuno Mendes"],MID:["Zaïre-Emery","Vitinha","João Neves"],ATT:["Doué","Dembélé","Barcola"]}},
-{name:"Bayern Munich", abbr:"BAY",flag:"🇩🇪",str:88, squad:{GK:["Urbig"],DEF:["Laimer","Tah","Upamecano","Stanisic"],MID:["Pavlovic","Kimmich","Luis Díaz","Gnabry","Olise"],ATT:["Jackson"]}},
-{name:"Arsenal", abbr:"ARS",flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",str:87, squad:{GK:["Raya"],DEF:["Ben White","Saliba","Gabriel","Hincapié"],MID:["Zubimendi","Rice","Saka","Eze","Trossard"],ATT:["Gyökeres"]}},
+{name:"Real Madrid", abbr:"RMA",flag:"🇪🇸",str:85, squad:{GK:["Courtois"],DEF:["Garcia","Huijsen","Rüdiger","Alexander-Arnold"],MID:["Arda Güler","Tchouaméni","Mbappé","Valverde"],ATT:["Vinícius Junior","Brahim Díaz"]}},
+{name:"Manchester City", abbr:"MCI",flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",str:85, squad:{GK:["Donnarumma"],DEF:["Nunes","Khusanov","Rúben Dias","Aït-Nouri"],MID:["Bernardo Silva","Rodri","Cherki","Reijnders","Doku"],ATT:["Haaland"]}},
+{name:"FC Barcelone", abbr:"FCB",flag:"🇪🇸",str:85, squad:{GK:["Garcia"],DEF:["Eric García","Cubarsí","Martin","Cancelo"],MID:["Marc Bernal","Pedri","Lamine Yamal","Fermín López","Raphinha"],ATT:["Lewandowski"]}},
+{name:"PSG", abbr:"PSG",flag:"🇫🇷",str:85, squad:{GK:["Safonov"],DEF:["Hakimi","Marquinhos","Pacho","Nuno Mendes"],MID:["Zaïre-Emery","Vitinha","João Neves"],ATT:["Doué","Dembélé","Barcola"]}},
+{name:"Bayern Munich", abbr:"BAY",flag:"🇩🇪",str:85, squad:{GK:["Urbig"],DEF:["Laimer","Tah","Upamecano","Stanisic"],MID:["Pavlovic","Kimmich","Luis Díaz","Gnabry","Olise"],ATT:["Jackson"]}},
+{name:"Arsenal", abbr:"ARS",flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",str:85, squad:{GK:["Raya"],DEF:["Ben White","Saliba","Gabriel","Hincapié"],MID:["Zubimendi","Rice","Saka","Eze","Trossard"],ATT:["Gyökeres"]}},
 {name:"Borussia Dortmund",abbr:"BVB",flag:"🇩🇪",str:85, squad:{GK:["Kobel"],DEF:["Reggiani","Anton","Schlotterbeck"],MID:["Ryerson","Sabitzer","Bellingham","Nmecha","Svensson"],ATT:["Adeyemi","Beier"]}},
-{name:"Chelsea", abbr:"CHE",flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",str:84, squad:{GK:["Jorgensen"],DEF:["Cucurella","Chalobah","Fofana","Gusto"],MID:["Caicedo","Reece James","Neto","Enzo Fernández","Palmer"],ATT:["João Pedro"]}},
-{name:"Inter Milan", abbr:"INT",flag:"🇮🇹",str:88, squad:{GK:["Sommer"],DEF:["Bisseck","Akanji","Carlos Augusto"],MID:["Dumfries","Barella","Zielinski","Sucic","Dimarco"],ATT:["Thuram","Esposito"]}},
-{name:"Atlético Madrid", abbr:"ATM",flag:"🇪🇸",str:86, squad:{GK:["Musso"],DEF:["Ruggeri","Hancko","Le Normand","Molina"],MID:["Lookman","Cardoso","Llorente","Simeone"],ATT:["Julián Álvarez","Griezmann"]}},
-{name:"Liverpool", abbr:"LIV",flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",str:90, squad:{GK:["Alisson"],DEF:["Frimpong","Konaté","van Dijk","Kerkez"],MID:["Gravenberch","Szoboszlai","Wirtz","Mac Allister"],ATT:["Salah","Ekitiké"]}},
-{name:"Benfica", abbr:"BEN",flag:"🇵🇹",str:81, squad:{GK:["Trubin"],DEF:["Dahl","Silva","Araujo","Bah"],MID:["Rios","Barreiro"],ATT:["Schjelderup","Rafa Silva","Lukebakio","Pavlidis"]}},
-{name:"Ajax Amsterdam", abbr:"AJX",flag:"🇳🇱",str:82, squad:{GK:["Paes"],DEF:["Rosa","Sutalo","Baas","Tomiyasu"],MID:["Klaassen","Regeer","Steur"],ATT:["Berghuis","Konadu","Godts"]}},
-{name:"SSC Napoli", abbr:"NAP",flag:"🇮🇹",str:83, squad:{GK:["Meret"],DEF:["Beukema","Buongiorno","Olivera"],MID:["Politano","Anguissa","Gilmour","Spinazzola"],ATT:["Elmas","Alisson Santos","Hojlund"]}},
-{name:"AC Milan", abbr:"ACM",flag:"🇮🇹",str:84, squad:{GK:["Maignan"],DEF:["Tomori","De Winter","Pavlovic"],MID:["Saelemaekers","Fofana","Modric","Rabiot","Estupinan"],ATT:["Pulisic","Leao"]}},
-{name:"FC Porto", abbr:"POR",flag:"🇵🇹",str:80, squad:{GK:["Costa"],DEF:["Zaidu","Bednarek","Thiago Silva","Costa"],MID:["Mora","Rosario","Fofana"],ATT:["Sainz","Moffi","William Gomes"]}}
+{name:"Chelsea", abbr:"CHE",flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",str:85, squad:{GK:["Jorgensen"],DEF:["Cucurella","Chalobah","Fofana","Gusto"],MID:["Caicedo","Reece James","Neto","Enzo Fernández","Palmer"],ATT:["João Pedro"]}},
+{name:"Inter Milan", abbr:"INT",flag:"🇮🇹",str:85, squad:{GK:["Sommer"],DEF:["Bisseck","Akanji","Carlos Augusto"],MID:["Dumfries","Barella","Zielinski","Sucic","Dimarco"],ATT:["Thuram","Esposito"]}},
+{name:"Atlético Madrid", abbr:"ATM",flag:"🇪🇸",str:85, squad:{GK:["Musso"],DEF:["Ruggeri","Hancko","Le Normand","Molina"],MID:["Lookman","Cardoso","Llorente","Simeone"],ATT:["Julián Álvarez","Griezmann"]}},
+{name:"Liverpool", abbr:"LIV",flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",str:85, squad:{GK:["Alisson"],DEF:["Frimpong","Konaté","van Dijk","Kerkez"],MID:["Gravenberch","Szoboszlai","Wirtz","Mac Allister"],ATT:["Salah","Ekitiké"]}},
+{name:"Benfica", abbr:"BEN",flag:"🇵🇹",str:85, squad:{GK:["Trubin"],DEF:["Dahl","Silva","Araujo","Bah"],MID:["Rios","Barreiro"],ATT:["Schjelderup","Rafa Silva","Lukebakio","Pavlidis"]}},
+{name:"Ajax Amsterdam", abbr:"AJX",flag:"🇳🇱",str:85, squad:{GK:["Paes"],DEF:["Rosa","Sutalo","Baas","Tomiyasu"],MID:["Klaassen","Regeer","Steur"],ATT:["Berghuis","Konadu","Godts"]}},
+{name:"SSC Napoli", abbr:"NAP",flag:"🇮🇹",str:85, squad:{GK:["Meret"],DEF:["Beukema","Buongiorno","Olivera"],MID:["Politano","Anguissa","Gilmour","Spinazzola"],ATT:["Elmas","Alisson Santos","Hojlund"]}},
+{name:"AC Milan", abbr:"ACM",flag:"🇮🇹",str:85, squad:{GK:["Maignan"],DEF:["Tomori","De Winter","Pavlovic"],MID:["Saelemaekers","Fofana","Modric","Rabiot","Estupinan"],ATT:["Pulisic","Leao"]}},
+{name:"FC Porto", abbr:"POR",flag:"🇵🇹",str:85, squad:{GK:["Costa"],DEF:["Zaidu","Bednarek","Thiago Silva","Costa"],MID:["Mora","Rosario","Fofana"],ATT:["Sainz","Moffi","William Gomes"]}}
 ];
 
 const POSITIONS={GK:'Gardien',DEF:'Défenseur',MID:'Milieu',ATT:'Attaquant'};
@@ -932,6 +1051,7 @@ const tA=pair[0],tB=pair[1];
 const isManagerMatch=state.mode==='manager'&&(tA.abbr===state.myTeam?.abbr||tB.abbr===state.myTeam?.abbr);
 const events=generateEvents(tA,tB);
 const{sA:baseA,sB:baseB}=computeScore(events);
+currentWeather=pickWeather();
 
 liveData={
 pairIdx,tA,tB,events,isManagerMatch,
@@ -944,16 +1064,21 @@ phase:'normal',
 penLog:[],penSA:0,penSB:0,
 sentOffA:[],sentOffB:[],
 goals:[],
-// pitch animation state
 ballX:50,ballY:50,ballTargetX:50,ballTargetY:50,
 lastAction:'center'
 };
 
 buildLiveScreen();
+applyWeatherToMap(currentWeather);
 document.getElementById('live-overlay').classList.add('open');
+showHymnBanner(tA,()=>{
 playWhistle('short');
 startCrowd(0.15);
+const intro='Coup d\'envoi ! '+tA.name+' affronte '+tB.name+' — '+ROUND_NAMES[state.round]+'. Météo : '+currentWeather.label;
+updateAIBox(intro);
+speak(intro);
 runLiveTimer();
+});
 }
 
 // DURATIONS: normal=60s, each ET half=17.5s (35s total), penalties async
@@ -1118,7 +1243,11 @@ addLiveEvent(ev.min,'goal','⚽ BUT'+(ev.isET?' (PROLONG.)':'')+' ! <strong>'+ev
 showGoalBanner(ev.player,ev.team,isMyGoal);
 playGoalSound(isMyGoal);
 spawnConfetti(35);
-// Move ball to net — team A attacks right (high X), team B attacks left (low X)
+// AI commentary
+commentEvent('goal',ev.player,ev.team.name,ev.min);
+// Replay after 3s
+setTimeout(()=>showReplay(ev),3000);
+// Move ball to net
 liveData.ballTargetX=ev.side==='a'?ri(93,99):ri(1,7);
 liveData.ballTargetY=ri(40,60);
 const label=document.getElementById('pitch-label');
@@ -1138,6 +1267,7 @@ if(ev.side==='a')liveData.sentOffA.push(ev.player);else liveData.sentOffB.push(e
 addLiveEvent(ev.min,'red-card','🟥 CARTON ROUGE ! <strong>'+ev.player+'</strong> est expulsé ! '+ev.team.flag,ev.side);
 showRCBanner(ev.player);
 playRedCard();
+commentEvent('red',ev.player,ev.min);
 const key=registerPlayer(ev.player,ev.team,'');
 state.players[key].redCards++;
 }
@@ -1146,6 +1276,7 @@ if(ev.side==='a')liveData.yA++;else liveData.yB++;
 const team=ev.side==='a'?liveData.tA:liveData.tB;
 addLiveEvent(ev.min,'yellow','🟨 Carton jaune — <strong>'+ev.player+'</strong> '+team.flag,ev.side);
 playYellowCard();
+if(Math.random()<0.5)commentEvent('yellow',ev.player,ev.min);
 const key=registerPlayer(ev.player,team,'');
 state.players[key].yellowCards++;
 }
@@ -1155,6 +1286,7 @@ const c=pick(CHANCE_EV);
 const team=ev.side==='a'?liveData.tA:liveData.tB;
 addLiveEvent(ev.min,'chance',c.i+' '+c.t+' ('+team.flag+')',ev.side);
 playDanger();
+if(Math.random()<0.6) commentEvent('chance',team.name,ev.min);
 // Move ball near goal for chance
 liveData.ballTargetX=ev.side==='a'?ri(78,92):ri(8,22);
 liveData.ballTargetY=ri(30,70);
@@ -1216,14 +1348,16 @@ rcBT=setTimeout(()=>b.classList.remove('show'),2200);
 function showHTBanner(sA,sB,isET){
 const b=document.getElementById('ht-banner');
 document.querySelector('.ht-text').textContent=isET?'⏸ MI-TEMPS PROLONG.':'⏸ MI-TEMPS';
-document.getElementById('ht-score').textContent=`${liveData.tA.flag} ${sA} — ${sB} ${liveData.tB.flag}`;
+document.getElementById('ht-score').textContent=liveData.tA.flag+' '+sA+' — '+sB+' '+liveData.tB.flag;
 b.classList.add('show');playWhistle('double');setCrowd(0.18);
+commentEvent('halftime',sA,sB,liveData.tA.name,liveData.tB.name);
 setTimeout(()=>{b.classList.remove('show');playWhistle('short');},2000);
 }
 function showETBanner(sA,sB){
 const b=document.getElementById('et-banner');
-document.getElementById('et-score').textContent=`${liveData.tA.flag} ${sA} — ${sB} ${liveData.tB.flag}`;
+document.getElementById('et-score').textContent=liveData.tA.flag+' '+sA+' — '+sB+' '+liveData.tB.flag;
 b.classList.add('show');playET();setCrowd(0.3);
+commentEvent('et');
 setTimeout(()=>b.classList.remove('show'),2800);
 }
 function showPenBanner(){document.getElementById('pen-banner').classList.add('show');}
@@ -1318,11 +1452,20 @@ const closeBtn=document.getElementById('live-close-btn');
 if(skipBtn)skipBtn.style.display='none';
 if(closeBtn){closeBtn.style.display='inline-flex';}
 
-// Manager result
+// Final whistle commentary
+const finalText=winner.name+' remporte ce match '+sA+' à '+sB+' ! Quelle performance !';
+setTimeout(()=>{updateAIBox(finalText);speak(finalText);},600);
+
+// Show MOTM after 2s, then manager result
+const motm=computeMOTM(result);
+setTimeout(()=>{
+showMOTM(motm,()=>{
 if(liveData.isManagerMatch){
 const myWon=winner.abbr===state.myTeam?.abbr;
-setTimeout(()=>showManagerResult(myWon,winner,sA,sB,penalties),1200);
+setTimeout(()=>showManagerResult(myWon,winner,sA,sB,penalties),400);
 }
+});
+},2000);
 }
 
 function showManagerResult(won,winner,sA,sB,penalties){
@@ -1471,7 +1614,13 @@ ${isManagerMatch?`<span style="color:var(--orange);font-weight:700">🎽 VOTRE M
 <div class="pitch-ball" id="pitch-ball" style="left:50%;top:50%"></div>
 <div style="position:absolute;top:4px;left:8px;font-size:10px;color:rgba(255,255,255,0.5);letter-spacing:0.15em">${tA.flag} ${tA.abbr}</div>
 <div style="position:absolute;top:4px;right:8px;font-size:10px;color:rgba(255,255,255,0.5);letter-spacing:0.15em">${tB.abbr} ${tB.flag}</div>
+<div class="weather-badge">${currentWeather?currentWeather.icon:''} ${currentWeather?currentWeather.label:''}</div>
 <div class="pitch-action-label" id="pitch-label">COUP D'ENVOI</div>
+</div>
+
+<div class="ai-commentary-box">
+<div class="ai-header"><div class="ai-speaking-dot"></div>🎙️ COMMENTATEUR IA EN DIRECT</div>
+<div class="ai-text" id="ai-text">Le match va bientôt commencer...</div>
 </div>
 
 <div class="events-panel">
@@ -1484,6 +1633,7 @@ ${isManagerMatch?`<span style="color:var(--orange);font-weight:700">🎽 VOTRE M
 <div class="live-footer-btns">
 <button class="btn btn-ghost btn-sm" id="live-skip-btn" onclick="skipLiveMatch()">⏩ Passer à la fin</button>
 <button class="btn btn-gold btn-sm" id="live-close-btn" onclick="closeLiveMatch()" style="display:none">📋 Résumé →</button>
+<button class="btn btn-ghost btn-sm" id="speech-toggle" onclick="toggleSpeech()">🎙️</button>
 <button class="btn btn-red btn-sm" onclick="forceCloseLive()">✕ Quitter</button>
 </div>`;
 overlay.appendChild(wrap);
@@ -1850,9 +2000,448 @@ renderMenu();renderScorers();renderHistory();renderPlayers();
 switchTab('bracket');
 }
 
+// ══════════════════════════════════════════
+// WEATHER ENGINE
+// ══════════════════════════════════════════
+const WEATHERS=[
+{id:'sunny',label:'☀️ Beau temps',icon:'☀️',effect:null,pitchMod:0},
+{id:'cloudy',label:'⛅ Nuageux',icon:'⛅',effect:null,pitchMod:0},
+{id:'rain',label:'🌧️ Pluie',icon:'🌧️',effect:'rain',pitchMod:-2},
+{id:'heavy_rain',label:'⛈️ Orage',icon:'⛈️',effect:'rain',pitchMod:-4},
+{id:'night',label:'🌙 Match de nuit',icon:'🌙',effect:'night',pitchMod:0},
+{id:'fog',label:'🌫️ Brouillard',icon:'🌫️',effect:'fog',pitchMod:-1},
+{id:'snow',label:'❄️ Neige',icon:'❄️',effect:'snow',pitchMod:-3},
+];
+let currentWeather=null;
+
+function pickWeather(){
+return WEATHERS[ri(0,WEATHERS.length-1)];
+}
+
+function applyWeatherToMap(weather){
+const map=document.getElementById('pitch-map');
+if(!map||!weather)return;
+// Remove previous effects
+map.querySelectorAll('.rain-layer,.night-overlay,.fog-overlay').forEach(e=>e.remove());
+map.classList.remove('wet');
+if(!weather.effect)return;
+if(weather.effect==='rain'||weather.effect==='snow'){
+map.classList.add('wet');
+const layer=document.createElement('div');
+layer.className='rain-layer';
+const count=weather.effect==='snow'?25:40;
+for(let i=0;i<count;i++){
+const drop=document.createElement('div');
+drop.className='raindrop';
+const dur=weather.effect==='snow'?ri(15,25)/10:ri(5,12)/10;
+drop.style.cssText='left:'+ri(0,100)+'%;height:'+(weather.effect==='snow'?4:ri(8,16))+'px;animation-duration:'+dur+'s;animation-delay:-'+Math.random()*2+'s;opacity:'+(0.3+Math.random()*0.4)+';width:'+(weather.effect==='snow'?ri(2,4):1)+'px;'+(weather.effect==='snow'?'border-radius:50%;background:rgba(255,255,255,0.6);':'');
+layer.appendChild(drop);
+}
+map.appendChild(layer);
+}
+if(weather.effect==='night'){
+const ov=document.createElement('div');ov.className='night-overlay';map.appendChild(ov);
+}
+if(weather.effect==='fog'){
+const ov=document.createElement('div');ov.className='fog-overlay';map.appendChild(ov);
+}
+}
+
+function playHymn(team){
+if(!soundEnabled)return;
+// Generate team-specific simple melody from team abbr char codes
+const codes=team.abbr.split('').map(c=>c.charCodeAt(0));
+const baseFreq=200+codes[0]*3;
+const notes=[baseFreq,baseFreq*1.25,baseFreq*1.5,baseFreq*1.25,baseFreq,baseFreq*0.8,baseFreq];
+notes.forEach((f,i)=>tone(f,'triangle',0.35,0.18,i*0.38));
+}
+
+function showHymnBanner(team,onDone){
+const b=document.getElementById('hymn-banner');
+document.getElementById('hymn-flag').textContent=team.flag;
+document.getElementById('hymn-text').textContent=team.name.toUpperCase();
+b.classList.add('show');
+playHymn(team);
+setTimeout(()=>{b.classList.remove('show');if(onDone)onDone();},3000);
+}
+
+// ══════════════════════════════════════════
+// AI COMMENTARY — SPEECH ENGINE
+// ══════════════════════════════════════════
+let speechEnabled=true;
+let frenchVoice=null;
+let speechReady=false;
+let speechQueue=[];
+let isSpeaking=false;
+
+// Unlock speech on first user interaction (required by browsers)
+function unlockSpeech(){
+if(speechReady||!('speechSynthesis' in window))return;
+// Speak a silent utterance to unlock the audio context
+const utt=new SpeechSynthesisUtterance('');
+utt.volume=0;utt.onend=()=>{speechReady=true;};
+window.speechSynthesis.speak(utt);
+// Load voices
+setTimeout(findFrenchVoice,200);
+document.removeEventListener('click',unlockSpeech);
+document.removeEventListener('touchstart',unlockSpeech);
+}
+document.addEventListener('click',unlockSpeech,{once:true});
+document.addEventListener('touchstart',unlockSpeech,{once:true});
+
+function findFrenchVoice(){
+if(!('speechSynthesis' in window))return;
+const voices=window.speechSynthesis.getVoices();
+if(voices.length===0){setTimeout(findFrenchVoice,300);return;}
+frenchVoice=voices.find(v=>v.lang==='fr-FR'&&v.localService)
+||voices.find(v=>v.lang==='fr-FR')
+||voices.find(v=>v.lang.startsWith('fr'))
+||null;
+}
+if('speechSynthesis' in window){
+findFrenchVoice();
+window.speechSynthesis.onvoiceschanged=findFrenchVoice;
+}
+
+// Keep Chrome alive (stops after ~15s bug)
+setInterval(()=>{
+if(!('speechSynthesis' in window))return;
+if(window.speechSynthesis.paused)window.speechSynthesis.resume();
+},5000);
+
+function speak(text){
+if(!speechEnabled||!('speechSynthesis' in window))return;
+// Add to queue
+speechQueue.push(text);
+if(!isSpeaking)processQueue();
+}
+
+function processQueue(){
+if(!speechEnabled||speechQueue.length===0){isSpeaking=false;return;}
+isSpeaking=true;
+const text=speechQueue.shift();
+try{
+window.speechSynthesis.cancel();
+setTimeout(()=>{
+const utt=new SpeechSynthesisUtterance(text);
+utt.lang='fr-FR';
+utt.rate=1.0;
+utt.pitch=1.0;
+utt.volume=1.0;
+if(frenchVoice)utt.voice=frenchVoice;
+utt.onend=()=>{isSpeaking=false;setTimeout(processQueue,300);};
+utt.onerror=()=>{isSpeaking=false;setTimeout(processQueue,300);};
+window.speechSynthesis.speak(utt);
+},80);
+}catch(e){isSpeaking=false;}
+}
+
+const COMMENTARY_TEMPLATES={
+goal:(player,team,min)=>[
+'BUUUT ! '+player+' marque pour '+team+' ! Quelle frappe magistrale a la '+min+' eme minute !',
+player+' ! '+player+' ! Le stade explose ! '+team+' prend l avantage !',
+'Magnifique but de '+player+' pour '+team+' a la '+min+' eme !',
+'C est rentre ! '+player+' ne tremble pas et marque pour '+team+' !',
+'Oh la la ! Quel but extraordinaire de '+player+' !',
+],
+chance:(team,min)=>[
+'Enorme occasion pour '+team+' ! Le gardien sort un arret miraculeux !',
+'Le poteau ! '+team+' aurait pu scorer !',
+'Face a face rate ! '+team+' va regretter cette occasion !',
+'Quelle occasion manquee pour '+team+' ! Incroyable !',
+],
+yellow:(player,min)=>[
+'Carton jaune pour '+player+' !',
+'L arbitre sort le jaune pour '+player+' ! Attention !',
+],
+red:(player,min)=>[
+'CARTON ROUGE ! '+player+' est expulse ! Son equipe joue a dix !',
+player+' prend le rouge direct ! Quelle erreur monumentale !',
+],
+halftime:(sA,sB,tA,tB)=>[
+'Mi-temps ! Score : '+tA+' '+sA+', '+tB+' '+sB+'. '+(sA>sB?tA+' mene !':sB>sA?tB+' mene !':'Egalite !'),
+],
+et:()=>['Prolongations ! On joue les quinze minutes supplementaires !'],
+penalties:()=>['Tirs au but ! La seance fatidique commence !'],
+penGoal:(player)=>[player+' transforme son penalty ! Sang froid !'],
+penMiss:(player)=>[player+' rate son tir ! Quelle deception !'],
+};
+
+function updateAIBox(text){
+const box=document.getElementById('ai-text');
+if(!box)return;
+box.classList.add('typing');
+box.textContent='';
+let i=0;
+clearInterval(box._ti);
+box._ti=setInterval(()=>{
+box.textContent+=text[i]||'';i++;
+if(i>=text.length){clearInterval(box._ti);box.classList.remove('typing');}
+},16);
+}
+
+function commentEvent(type,...args){
+const templates=COMMENTARY_TEMPLATES[type];
+if(!templates)return;
+const list=templates(...args);
+const text=pick(list);
+updateAIBox(text);
+speak(text);
+}
+
+function toggleSpeech(){
+speechEnabled=!speechEnabled;
+if(!speechEnabled&&'speechSynthesis' in window){window.speechSynthesis.cancel();speechQueue=[];isSpeaking=false;}
+const btn=document.getElementById('speech-toggle');
+if(btn)btn.textContent=speechEnabled?'🎙️':'🔇';
+notify(speechEnabled?'🎙️ Commentateur vocal ON':'🔇 Commentateur vocal OFF');
+}
+
+// ══════════════════════════════════════════
+// GOAL REPLAY ANIMATION
+// ══════════════════════════════════════════
+function showReplay(ev){
+const overlay=document.getElementById('replay-overlay');
+const ball=document.getElementById('replay-ball');
+document.getElementById('replay-scorer-name').textContent=ev.player;
+document.getElementById('replay-scorer-team').textContent=ev.team.flag+' '+ev.team.name;
+overlay.classList.add('show');
+
+// Animate ball from center to goal
+const isA=ev.side==='a';
+ball.style.transition='none';
+ball.style.left='50%';ball.style.top='50%';
+
+// Step 1: ball starts in midfield
+setTimeout(()=>{
+ball.style.transition='left 0.8s ease-in, top 0.6s ease-in-out';
+ball.style.left=isA?'70%':'30%';
+ball.style.top=ri(40,60)+'%';
+spawnReplayTrail(50,50);
+},300);
+// Step 2: move into box
+setTimeout(()=>{
+ball.style.transition='left 0.6s ease-in, top 0.4s ease-in-out';
+ball.style.left=isA?'84%':'16%';
+ball.style.top=ri(35,65)+'%';
+spawnReplayTrail(isA?70:30,50);
+},1200);
+// Step 3: SHOOT into net
+setTimeout(()=>{
+ball.style.transition='left 0.35s ease-in, top 0.35s ease-out';
+ball.style.left=isA?'97%':'3%';
+ball.style.top=ri(45,55)+'%';
+spawnReplayTrail(isA?84:16,50);
+},1900);
+// Step 4: bounce in net
+setTimeout(()=>{
+ball.style.transition='left 0.2s ease-out, top 0.2s ease-out';
+ball.style.left=isA?'94%':'6%';
+ball.style.top=(30+ri(0,40))+'%';
+},2350);
+
+setTimeout(()=>overlay.classList.remove('show'),4200);
+}
+
+function spawnReplayTrail(x,y){
+const pitch=document.getElementById('replay-pitch');
+if(!pitch)return;
+const dot=document.createElement('div');
+dot.className='replay-trail';
+dot.style.cssText='left:'+x+'%;top:'+y+'%;width:8px;height:8px;background:rgba(255,215,0,0.5);position:absolute;border-radius:50%;';
+pitch.appendChild(dot);
+setTimeout(()=>dot.remove(),800);
+}
+
+function closeReplay(){document.getElementById('replay-overlay').classList.remove('show');}
+
+// ══════════════════════════════════════════
+// MAN OF THE MATCH
+// ══════════════════════════════════════════
+function computeMOTM(result){
+const{teamA,teamB,goals}=result;
+const allP=[...getAllPlayers(teamA).map(p=>({p,t:teamA,side:'a'})),...getAllPlayers(teamB).map(p=>({p,t:teamB,side:'b'}))];
+let best=null,bestNote=0;
+allP.forEach(({p,t})=>{
+const key=p+'_'+t.abbr;
+const pd=state.players[key];
+if(pd&&pd.notes.length&&pd.notes[pd.notes.length-1]>bestNote){
+bestNote=pd.notes[pd.notes.length-1];
+best={player:p,team:t,note:bestNote,goals:goals.filter(g=>g.player===p).length};
+}
+});
+return best;
+}
+
+function showMOTM(motm,onDone){
+if(!motm)return onDone&&onDone();
+const overlay=document.getElementById('motm-overlay');
+document.getElementById('motm-flag').textContent=motm.team.flag;
+document.getElementById('motm-name').textContent=motm.player;
+document.getElementById('motm-note').textContent=motm.note;
+document.getElementById('motm-stat').textContent=motm.goals>0?'⚽ '+motm.goals+' but'+(motm.goals>1?'s':''):'Prestration dominante';
+overlay.classList.add('show');
+overlay._onDone=onDone;
+const text='Homme du match : '+motm.player+' de '+motm.team.name+' avec une note de '+motm.note+' sur dix !';
+setTimeout(()=>{updateAIBox(text);speak(text);},400);
+for(let i=0;i<3;i++)setTimeout(()=>spawnConfetti(20),i*300);
+}
+
+function closeMOTM(){
+const overlay=document.getElementById('motm-overlay');
+overlay.classList.remove('show');
+if(overlay._onDone)overlay._onDone();
+}
+
+// ══════════════════════════════════════════
+// STANDINGS (TEAM STATS)
+// ══════════════════════════════════════════
+function computeStandings(){
+const stats={};
+TEAMS.forEach(t=>{
+stats[t.abbr]={team:t,played:0,won:0,lost:0,gf:0,ga:0,pts:0,roundReached:0};
+});
+state.allMatches.forEach(({result,round})=>{
+const{teamA,teamB,sA,sB,winner}=result;
+const rnd=round+1;
+[teamA,teamB].forEach(t=>{
+stats[t.abbr].roundReached=Math.max(stats[t.abbr].roundReached,rnd);
+});
+stats[teamA.abbr].played++;stats[teamB.abbr].played++;
+stats[teamA.abbr].gf+=sA;stats[teamA.abbr].ga+=sB;
+stats[teamB.abbr].gf+=sB;stats[teamB.abbr].ga+=sA;
+if(winner===teamA){stats[teamA.abbr].won++;stats[teamA.abbr].pts+=3;stats[teamB.abbr].lost++;}
+else{stats[teamB.abbr].won++;stats[teamB.abbr].pts+=3;stats[teamA.abbr].lost++;}
+});
+return Object.values(stats).sort((a,b)=>b.pts-a.pts||b.roundReached-a.roundReached||(b.gf-b.ga)-(a.gf-a.ga));
+}
+
+function renderStandings(){
+const c=document.getElementById('standings-content');
+const list=computeStandings();
+if(!list.some(s=>s.played>0)){
+c.innerHTML='<div style="text-align:center;padding:40px;color:var(--muted)">📊 Jouez des matchs pour voir le classement</div>';
+return;
+}
+const maxPts=Math.max(...list.map(s=>s.pts))||1;
+const roundLabels=['','Huitièmes','Quarts','Demis','Finale','Champion'];
+c.innerHTML=`
+<table class="standings-table">
+<tr>
+<th>#</th><th>ÉQUIPE</th><th>J</th><th>V</th><th>D</th>
+<th>BM</th><th>BE</th><th>DIFF</th><th>PTS</th><th>STADE</th>
+</tr>
+${list.map((s,i)=>{
+const diff=s.gf-s.ga;
+const diffStr=diff>0?'+'+diff:diff;
+const nc=i===0?'var(--gold)':i===1?'#b0bec5':i===2?'#cd7f32':'var(--text)';
+return `<tr>
+<td class="st-rank" style="color:${nc}">${i+1}</td>
+<td><div class="st-team">${s.team.flag} ${s.team.name}</div></td>
+<td class="st-num">${s.played}</td>
+<td class="st-num" style="color:var(--green)">${s.won}</td>
+<td class="st-num" style="color:var(--red)">${s.lost}</td>
+<td class="st-num">${s.gf}</td>
+<td class="st-num">${s.ga}</td>
+<td class="st-num" style="color:${diff>0?'var(--green)':diff<0?'var(--red)':'var(--muted)'}">${diffStr}</td>
+<td class="st-num" style="color:var(--gold);font-weight:700">${s.pts}
+<span class="st-bar"><span class="st-bar-fill" style="width:${Math.round(s.pts/maxPts*100)}%"></span></span>
+</td>
+<td style="font-size:11px;color:var(--muted)">${roundLabels[s.roundReached]||'—'}</td>
+</tr>`;
+}).join('')}
+</table>`;
+}
+
+// ══════════════════════════════════════════
+// PODIUM
+// ══════════════════════════════════════════
+function buildPodium(){
+const list=computeStandings().filter(s=>s.played>0).slice(0,3);
+if(list.length<1)return '';
+const medals=['🥇','🥈','🥉'];
+const classes=['podium-1','podium-2','podium-3'];
+const baseClasses=['podium-base-1','podium-base-2','podium-base-3'];
+// Reorder: 2nd, 1st, 3rd
+const order=[1,0,2].filter(i=>list[i]);
+return `
+<div class="section-title">🏅 Podium du Tournoi</div>
+<div class="podium-wrap">
+${order.map(i=>{
+const s=list[i];
+if(!s)return '';
+return `<div class="podium-step">
+<div class="podium-team-box ${classes[i]}">
+<div class="podium-medal">${medals[i]}</div>
+<div class="podium-flag">${s.team.flag}</div>
+<div class="podium-name">${s.team.name}</div>
+</div>
+<div class="podium-base ${baseClasses[i]}">${s.pts} PTS</div>
+</div>`;
+}).join('')}
+</div>`;
+}
+
+// ══════════════════════════════════════════
+// PATCH: switchTab with new standings tab
+// ══════════════════════════════════════════
+function switchTab(tab){
+['bracket','scorers','standings','history','players'].forEach((t,i)=>{
+document.querySelectorAll('.tab')[i].classList.toggle('active',t===tab);
+document.querySelectorAll('.tab-panel')[i].classList.toggle('active',t===tab);
+});
+if(tab==='scorers')renderScorers();
+if(tab==='standings')renderStandings();
+if(tab==='history')renderHistory();
+if(tab==='players')renderPlayers();
+playClick();
+}
+
+// ══════════════════════════════════════════
+// PATCH: showChampion with podium + MOTM overall
+// ══════════════════════════════════════════
+function showChampion(team){
+state.champion=team;
+const isMyTeam=state.mode==='manager'&&team.abbr===state.myTeam?.abbr;
+playChampion();
+for(let i=0;i<8;i++)setTimeout(()=>spawnConfetti(50),i*400);
+
+// Best overall player
+const best=Object.values(state.players)
+.filter(p=>p.matches>0)
+.sort((a,b)=>b.avgNote-a.avgNote)[0];
+
+const podiumHTML=buildPodium();
+
+document.getElementById('bracket-content').innerHTML=`
+<div class="champ-screen">
+<div class="champ-suptitle">${isMyTeam?'🎉 FÉLICITATIONS MANAGER ! 🎉':'🎉 CHAMPION DU MONDE 2025 🎉'}</div>
+<span class="champ-trophy">🏆</span>
+<span class="champ-flag">${team.flag}</span>
+<div class="champ-name">${team.name}</div>
+<div class="champ-tag">${isMyTeam?'VOUS ÊTES CHAMPION DU MONDE !':'EST CHAMPION DU MONDE !'}</div>
+${podiumHTML}
+${best?`
+<div style="background:linear-gradient(135deg,rgba(255,215,0,0.08),rgba(0,212,106,0.05));border:1px solid rgba(255,215,0,0.2);border-radius:12px;padding:16px 20px;max-width:340px;margin:0 auto 24px;text-align:center">
+<div style="font-size:10px;letter-spacing:0.4em;color:var(--muted);margin-bottom:8px">🌟 MEILLEUR JOUEUR DU TOURNOI</div>
+<div style="font-size:32px;margin-bottom:4px">${best.flag}</div>
+<div style="font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--gold)">${best.name}</div>
+<div style="font-size:13px;color:var(--muted)">${best.team} · Moy. ${best.avgNote} · ${best.goals} but${best.goals!==1?'s':''}</div>
+</div>`:''}
+<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+<button class="btn btn-gold" onclick="switchTab('standings')">📊 Classement</button>
+<button class="btn btn-ghost" onclick="switchTab('scorers')">⚽ Buteurs</button>
+<button class="btn btn-ghost" onclick="switchTab('players')">👤 Joueurs</button>
+<button class="btn btn-red" onclick="restartGame()">🔄 Nouveau tournoi</button>
+</div>
+</div>`;
+
+const champText=isMyTeam?'Bravo champion ! Vous avez remporté la Coupe du Monde avec '+team.name+' !':team.name+' est le nouveau champion du monde !';
+setTimeout(()=>{updateAIBox(champText);speak(champText);},1000);
+}
+
 // INIT
 renderMenu();
 </script>
 
 </body>
-</html>
